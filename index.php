@@ -24,6 +24,7 @@
   <main>
     <h1>Welcome to NyamaTrack_App</h1>
     <p>This is the main content area.</p>
+    <p>This is a test commit branch from test_branch.</p>
   </main>
 
   <?php include 'includes/footer.php'; ?>
