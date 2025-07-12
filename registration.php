@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,27 +28,31 @@
       <h2 class="text-[28px] font-bold px-4 pt-5 pb-3">Create an account</h2>
 
       <!-- Form -->
-      <form id="registerForm" class="max-w-[480px] mx-auto px-4">
+      <form id="registerForm" method="POST" class="max-w-[480px] mx-auto px-4">
 
-        <input type="text" id="fullname" placeholder="Full Name" required
+
+        <input type="text" id="fullname" name="fullname" placeholder="Full Name" required
           class="mb-3 w-full h-14 p-4 rounded-xl bg-[#382929] text-white placeholder-[#b89d9d]" autocomplete="off" />
 
-        <input type="text" id="permit" placeholder="Business Permit No." required
+        <input type="text" id="business_name" name="business_name" placeholder="Business Name" required
           class="mb-3 w-full h-14 p-4 rounded-xl bg-[#382929] text-white placeholder-[#b89d9d]" autocomplete="off" />
 
-        <input type="text" id="location" placeholder="Business Location" required
+        <input type="text" id="permit" name="permit" placeholder="Business Permit No." required
           class="mb-3 w-full h-14 p-4 rounded-xl bg-[#382929] text-white placeholder-[#b89d9d]" autocomplete="off" />
 
-        <input type="tel" id="phone" placeholder="Phone Number" required
+        <input type="text" id="location" name="location" placeholder="Business Location" required
           class="mb-3 w-full h-14 p-4 rounded-xl bg-[#382929] text-white placeholder-[#b89d9d]" autocomplete="off" />
 
-        <input type="email" id="email" placeholder="Email Address" required
+        <input type="tel" id="phone" name="phone" placeholder="Phone Number" required
           class="mb-3 w-full h-14 p-4 rounded-xl bg-[#382929] text-white placeholder-[#b89d9d]" autocomplete="off" />
 
-        <input type="password" id="password" placeholder="Password" required
+        <input type="email" id="email" name="email" placeholder="Email Address" required
           class="mb-3 w-full h-14 p-4 rounded-xl bg-[#382929] text-white placeholder-[#b89d9d]" autocomplete="off" />
 
-        <input type="password" id="confirm" placeholder="Confirm Password" required
+        <input type="password" id="password" name="password" placeholder="Password" required
+          class="mb-3 w-full h-14 p-4 rounded-xl bg-[#382929] text-white placeholder-[#b89d9d]" autocomplete="off" />
+
+        <input type="password" id="confirm" name="confirm" placeholder="Confirm Password" required
           class="mb-4 w-full h-14 p-4 rounded-xl bg-[#382929] text-white placeholder-[#b89d9d]" autocomplete="off" />
 
         <button type="submit"
@@ -68,6 +74,7 @@
 
       const values = {
         fullname: document.getElementById("fullname").value.trim(),
+        business_name: document.getElementById("business_name").value.trim(),
         permit: document.getElementById("permit").value.trim(),
         location: document.getElementById("location").value.trim(),
         phone: document.getElementById("phone").value.trim(),
@@ -76,43 +83,28 @@
         confirm: document.getElementById("confirm").value
       };
 
-      // Check all fields filled
-      for (const field in values) {
-        if (!values[field]) {
-          alert(`${field.replace(/([A-Z])/g, ' $1')} is required.`);
-          return;
+      // All checks passed, submit via AJAX
+      fetch('api/registration_handler.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams(values)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert(data.message);
+          window.location.href = "login.php";
+        } else {
+          // Show detailed error if available
+          alert((data.error ? "Registration failed: " + data.error : "Registration failed.") +
+                (data.details ? "\nDetails: " + data.details : ""));
         }
-      }
-
-      // Validate email format
-      const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
-      if (!emailRegex.test(values.email)) {
-        alert("Please enter a valid email address.");
-        return;
-      }
-
-      // Validate phone number format (Kenyan and international)
-      const phoneRegex = /^\\+?[0-9]{9,15}$/;
-      if (!phoneRegex.test(values.phone)) {
-        alert("Please enter a valid phone number.");
-        return;
-      }
-
-      // Strong password policy
-      const passwordPolicy = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$/;
-      if (!passwordPolicy.test(values.password)) {
-        alert("Password must be at least 8 characters, include uppercase, lowercase, number, and symbol.");
-        return;
-      }
-
-      if (values.password !== values.confirm) {
-        alert("Passwords do not match.");
-        return;
-      }
-
-      // All checks passed
-      alert("✅ Registration validated successfully.\n🔐 Securely submitting...");
-      window.location.href = "verify.html";
+      })
+      .catch(() => {
+        alert("Registration failed. Please try again later.");
+      });
     });
   </script>
 </body>
