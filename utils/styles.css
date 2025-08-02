@@ -156,3 +156,69 @@ button:disabled:focus {
   }
 }
 
+
+/* Transactions styles */
+.transactions {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  width: 100%;
+  margin-left: 0;
+}
+.transactions input {
+  color: var(--text-color);
+  border: none;
+  background-color: var(--primary-color);
+  border-bottom: 2px solid var(--secondary-color);
+  border-radius: 0;
+}
+/* Placeholder text color */
+.transactions input::placeholder {
+  color: #ffffff;
+  opacity: 0.7; /* slightly muted white */
+}
+.transactions input::-webkit-input-placeholder {
+  color: #ffffff;
+  opacity: 0.7;
+}
+.transactions input:-ms-input-placeholder {
+  color: #ffffff;
+  opacity: 0.7;
+}
+.transactions button {
+  color: var(--text-color);
+  background-color: var(--button-color);
+  border: none;
+  padding: 10px 20px;
+}
+.transactions #card {
+  background-color: var(--secondary-color);
+}
+.transactions #table,
+.transactions #table th,
+.transactions #table td {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
+/* Optional border removal for a cleaner dark table */
+.transactions #table thead th {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.transactions #table tbody tr {
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.transactions #table tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* Adjust dashboard width for desktop view */
+@media (min-width: 768px) {
+  .transactions {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+    height: 100vh;
+  }
+}
+
