@@ -71,9 +71,9 @@
       <i class="fas fa-home"></i>
       <span>Dashboard</span>
     </a>
-    <a href="transactions.php" class="sidebar-link">
+    <a href="beef_transactions.php" class="sidebar-link">
       <i class="fas fa-credit-card"></i>
-      <span>Transactions</span>
+      <span>Beef Transactions</span>
     </a>
     <a href="reports.php" class="sidebar-link">
       <i class="fas fa-file-invoice-dollar"></i>
