@@ -76,7 +76,7 @@
       <i class="fas fa-user"></i>
       <span>Profile</span>
     </a>
-    <a href="../logout.php" class="sidebar-link">
+    <a href="logout.php" class="sidebar-link">
       <i class="fas fa-sign-out-alt"></i>
       <span>Logout</span>
     </a>

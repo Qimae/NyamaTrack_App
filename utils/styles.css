@@ -82,9 +82,11 @@ button:disabled:focus {
   background-color: var(--secondary-color);
   color: var(--text-color);
 }
-#card p {
+#card p, #card label, #card th, #card td, #card h1, #card h2, #card h3, #card h4, #card h5, #card h6 {
   color: var(--text-color);
 }
+
+
 
 /* Chart container styling */
 #chart-card {
@@ -188,28 +190,29 @@ button:disabled:focus {
   color: var(--text-color);
   background-color: var(--button-color);
   border: none;
-  padding: 10px 20px;
+  padding: 8px;
 }
 .transactions #card {
   background-color: var(--secondary-color);
 }
-.transactions #table,
-.transactions #table th,
-.transactions #table td {
+.transactions #transactionsTable,
+.transactions #transactionsTable th,
+.transactions #transactionsTable td {
   background-color: var(--secondary-color);
   color: var(--text-color);
+  padding: .5rem .5rem;
 }
 
-/* Optional border removal for a cleaner dark table */
-.transactions #table thead th {
+/* Optional border removal for a cleaner dark transactionsTable */
+.transactions #transactionsTable thead th {
   border-bottom: 2px solid var(--primary-color);
 }
 
-.transactions #table tbody tr {
+.transactions #transactionsTable tbody tr {
   border-bottom: 1px solid var(--primary-color);
 }
 
-.transactions #table tbody tr:last-child {
+.transactions #transactionsTable tbody tr:last-child {
   border-bottom: none;
 }
 
