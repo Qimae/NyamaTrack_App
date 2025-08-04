@@ -52,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Decrypt fullname and business_name for session and response
             $dec_fullname = decrypt_data($user['fullname'], $secret_key);
             $dec_business_name = decrypt_data($user['business_name'], $secret_key);
+            $_SESSION['user_id'] = (int)$user['id'];
             $_SESSION['business_name'] = $dec_business_name;
             $_SESSION['email'] = $email;
             echo json_encode(['success' => true, 'message' => 'Login successful.', 'fullname' => $dec_fullname, 'user_id' => $user['id']]);
