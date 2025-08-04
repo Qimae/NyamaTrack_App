@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,14 +17,14 @@
 </head>
 
 <body>
-  <?php 
+  <?php
   session_start();
   if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
   }
-  include 'includes/left-sidebar.php'; 
-  include 'includes/bottom-sidebar.php'; 
+  include 'includes/left-sidebar.php';
+  include 'includes/bottom-sidebar.php';
   ?>
 
   <main class="py-4 transactions">
@@ -31,12 +32,12 @@
       <div class="row mb-4">
         <div class="col-12">
           <h1 class="mb-4">Beef Transactions</h1>
-          
-       
-          
-        
+
+
+
+
           <!-- Add/Edit Transaction Form -->
-          <div class="card mb-4">
+          <div class="card mb-4" style="background-color: var(--secondary-color); color: var(--text-color);">
             <div class="card-header d-flex justify-content-between align-items-center">
               <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Add New Transaction</h5>
               <button type="button" id="cancelEdit" class="btn btn-sm btn-outline-secondary" style="display: none;">
@@ -75,61 +76,54 @@
             </div>
           </div>
 
-          <!-- transaction filter -->
-          <form id="dateFilterForm" class="row g-3 align-items-end mb-4">
-            <div class="col-md-3">
-              <div class="form-group">
-                <label for="startDate">Start Date</label>
-                <input type="date" class="form-control" id="startDate">
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label for="endDate">End Date</label>
-                <input type="date" class="form-control" id="endDate">
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label for="statusFilter">Status</label>
-                <select class="form-select" id="statusFilter">
-                  <option value="">All Status</option>
-                  <option value="pending">Pending</option>
-                  <option value="partial">Partial</option>
-                  <option value="paid">Paid</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <button type="button" id="applyFilter" class="btn btn-primary w-100">
-                <i class="fas fa-filter me-2"></i>Apply Filter
-              </button>
-            </div>
-          </form>
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <h5 class="mb-0"><i class="fas fa-table me-2"></i>Transaction History</h5>
-              <div class="d-flex">
-                <button type="button" id="refreshTable" class="btn btn-sm btn-outline-primary me-2">
-                  <i class="fas fa-sync-alt me-1"></i> Refresh
-                </button>
-                <div class="dropdown">
-                  <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-download me-1"></i> Export
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="exportDropdown">
-                    <li><a class="dropdown-item export-btn" href="#" data-type="csv"><i class="fas fa-file-csv me-2"></i>CSV</a></li>
-                    <li><a class="dropdown-item export-btn" href="#" data-type="excel"><i class="fas fa-file-excel me-2"></i>Excel</a></li>
-                    <li><a class="dropdown-item export-btn" href="#" data-type="pdf"><i class="fas fa-file-pdf me-2"></i>PDF</a></li>
-                    <li><a class="dropdown-item export-btn" href="#" data-type="print"><i class="fas fa-print me-2"></i>Print</a></li>
-                  </ul>
+          <!-- Transaction History Card with Filter -->
+          <div class="card" style="background-color: var(--secondary-color); color: var(--text-color);">
+            <!-- Date Filter Form -->
+            <div class="card-header">
+              <div class="row g-3">
+                <div class="col-md-2">
+                  <div class="form-group mb-0">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" id="startDate">
+                  </div>
                 </div>
+                <div class="col-md-2">
+                  <div class="form-group mb-0">
+                    <label for="endDate" class="form-label">End Date</label>
+                    <input type="date" class="form-control" id="endDate">
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                  <button type="button" id="applyFilter" class="btn btn-primary w-100">
+                    <i class="fas fa-filter me-1"></i>Apply Filter
+                  </button>
+                </div>
+                
               </div>
             </div>
             <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0"><i class="fas fa-table me-2"></i>Transaction History</h5>
+                <div class="d-flex">
+                  <button type="button" id="refreshTable" class="btn btn-sm btn-outline-primary me-2">
+                    <i class="fas fa-sync-alt me-1"></i> Refresh
+                  </button>
+                  <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fas fa-download me-1"></i> Export
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="exportDropdown">
+                      <li><a class="dropdown-item export-btn" href="#" data-type="csv"><i class="fas fa-file-csv me-2"></i>CSV</a></li>
+                      <li><a class="dropdown-item export-btn" href="#" data-type="excel"><i class="fas fa-file-excel me-2"></i>Excel</a></li>
+                      <li><a class="dropdown-item export-btn" href="#" data-type="pdf"><i class="fas fa-file-pdf me-2"></i>PDF</a></li>
+                      <li><a class="dropdown-item export-btn" href="#" data-type="print"><i class="fas fa-print me-2"></i>Print</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
               <div class="table-responsive">
-                <table id="transactionsTable" class="table table-striped table-hover nowrap" style="width:100%">
-                  <thead class="table-light">
+                <table id="transactionsTable" class="table table-hover nowrap table-bordered" style="width:100%; color: var(--text-color); background-color: var(--secondary-color);">
+                  <thead style="background-color: var(--secondary-color);">
                     <tr>
                       <th>Date</th>
                       <th>Buy Price (Ksh/kg)</th>
@@ -177,10 +171,10 @@
       // Set default dates for filter
       const today = new Date();
       const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-      
+
       $('#startDate').val(formatDate(firstDay));
       $('#endDate').val(formatDate(today));
-      
+
       // Format date to YYYY-MM-DD
       function formatDate(date) {
         const d = new Date(date);
@@ -193,33 +187,33 @@
 
         return [year, month, day].join('-');
       }
-      
+
       // Calculate derived values
       function calculateDerivedValues() {
         const buyPrice = parseFloat($('#buy_price').val()) || 0;
         const sellPrice = parseFloat($('#sell_price').val()) || 0;
         const cashSales = parseFloat($('#total_cash_sales').val()) || 0;
         const expense = parseFloat($('#daily_expense').val()) || 0;
-        
+
         // Total Cash = Total Cash Sales + Daily Expense
         const totalCash = cashSales + expense;
-        
+
         // Total Kilos = Total Cash / Sell Price
         const totalKilos = sellPrice > 0 ? totalCash / sellPrice : 0;
-        
+
         // Profit per KG = Sell Price - Buy Price
         const profitPerKg = sellPrice - buyPrice;
-        
+
         // Profit = (Profit per KG * Total Kilos) - Daily Expense
         const profit = (profitPerKg * totalKilos) - expense;
-        
+
         // Update any calculated fields in the form if needed
         // Note: The actual calculations are done on the server side
       }
-      
+
       // Recalculate when any input changes
       $('#buy_price, #sell_price, #total_cash_sales, #daily_expense').on('input', calculateDerivedValues);
-      
+
       // Format number to 2 decimal places
       function formatNumber(num) {
         return parseFloat(num || 0).toFixed(2);
@@ -267,12 +261,12 @@
                 ${formatNumber(transaction.profit)}
               </td>
               <td class="text-center">
-                <button class="btn btn-sm btn-outline-primary edit-btn me-1" data-id="${transaction.id}" title="Edit">
+                <span class="badge bg-primary bg-opacity-25 text-primary me-1 edit-btn" data-id="${transaction.id}" title="Edit" style="cursor: pointer; font-size: 1.1em; padding: 0.4em 0.5em;">
                   <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${transaction.id}" title="Delete">
+                </span>
+                <span class="badge bg-danger bg-opacity-25 text-danger delete-btn" data-id="${transaction.id}" title="Delete" style="cursor: pointer; font-size: 1.1em; padding: 0.4em 0.5em;">
                   <i class="fas fa-trash"></i>
-                </button>
+                </span>
               </td>
             </tr>
           `;
@@ -312,16 +306,16 @@
       function loadTransactions() {
         const startDate = $('#startDate').val();
         const endDate = $('#endDate').val();
-        
+
         // Show loading state
         const refreshBtn = $('#refreshTable');
         const originalBtnText = refreshBtn.html();
         refreshBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
-        
+
         $.ajax({
           url: 'api/beef_transactions_handler.php',
           method: 'GET',
-          data: { 
+          data: {
             start_date: startDate,
             end_date: endDate
           },
@@ -341,39 +335,41 @@
           }
         });
       }
-      
+
       // Load transaction details for editing
       function loadTransactionDetails(transactionId) {
         if (!transactionId) {
           console.error('No transaction ID provided');
           return;
         }
-        
+
         console.log('Loading transaction details for ID:', transactionId);
-        
+
         // Show loading state
         const editBtn = $(`button[data-id="${transactionId}"]`);
         const originalBtnText = editBtn.html();
         editBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
-        
+
         // First, get the transaction details
         $.ajax({
           url: 'api/beef_transactions_handler.php',
           method: 'GET',
-          data: { id: transactionId },
+          data: {
+            id: transactionId
+          },
           dataType: 'json',
           success: function(response, status, xhr) {
             console.group('Transaction Details Response');
             console.log('Status:', status);
             console.log('Raw Response:', response);
             console.log('Response Type:', typeof response);
-            
+
             // Reset button state
             editBtn.prop('disabled', false).html('<i class="fas fa-edit"></i>');
-            
+
             try {
               let transaction = null;
-              
+
               // Check different possible response formats
               if (response && response.success && response.data) {
                 // Format: {success: true, data: {...}}
@@ -391,22 +387,22 @@
                 console.error('Unexpected response format:', response);
                 throw new Error(response.error || 'Invalid response format');
               }
-              
+
               if (!transaction) {
                 throw new Error('Transaction data is empty');
               }
-              
+
               // Fill the form with transaction data
               fillTransactionForm(transaction);
-              
+
               // Update UI
               updateFormForEditing();
-              
+
               // Don't show error if we got here
               return;
-              
+
               console.groupEnd();
-              
+
             } catch (error) {
               console.error('Error processing transaction data:', error);
               showError(error.message || 'Failed to process transaction details');
@@ -418,23 +414,23 @@
             console.error('Error:', error);
             console.error('Response Text:', xhr.responseText);
             console.groupEnd();
-            
+
             editBtn.prop('disabled', false).html('<i class="fas fa-edit"></i>');
             showError('Failed to load transaction details. Please check the console for more information.');
           }
         });
-        
+
         // Helper function to fill the form with transaction data
         function fillTransactionForm(transaction) {
           console.log('Filling form with transaction data:', transaction);
-          
+
           // Ensure we have the transaction ID (handle both 'id' and 'transaction_id')
           const transactionId = transaction.id || transaction.transaction_id;
           if (!transactionId) {
             console.error('No transaction ID found in response');
             throw new Error('Invalid transaction data: missing ID');
           }
-          
+
           // Fill the form fields
           $('#transactionId').val(transactionId);
           $('#transaction_date').val(transaction.transaction_date || '');
@@ -442,29 +438,29 @@
           $('#sell_price').val(transaction.sell_price ? parseFloat(transaction.sell_price).toFixed(2) : '0.00');
           $('#total_cash_sales').val(transaction.total_cash_sales ? parseFloat(transaction.total_cash_sales).toFixed(2) : '0.00');
           $('#daily_expense').val(transaction.daily_expense ? parseFloat(transaction.daily_expense).toFixed(2) : '0.00');
-          
+
           console.log('Form filled successfully');
         }
-        
+
         // Helper function to update the UI for editing
         function updateFormForEditing() {
           console.log('Updating UI for editing');
-          
+
           // Update form header
           $('.card-header h5').html('<i class="fas fa-edit me-2"></i>Edit Transaction');
-          
+
           // Show cancel button
           $('#cancelEdit').show();
-          
+
           // Scroll to form
           $('html, body').animate({
             scrollTop: $('#transactionForm').offset().top - 20
           }, 500);
-          
+
           console.log('UI updated for editing');
         }
       }
-      
+
       // Handle edit button click
       $(document).on('click', '.edit-btn', function() {
         const transactionId = $(this).data('id');
@@ -472,7 +468,7 @@
           loadTransactionDetails(transactionId);
         }
       });
-      
+
       // Handle cancel edit
       $('#cancelEdit').on('click', function() {
         resetForm();
@@ -480,7 +476,7 @@
           scrollTop: 0
         }, 500);
       });
-      
+
       // Reset form
       function resetForm() {
         $('#transactionForm')[0].reset();
@@ -488,11 +484,11 @@
         $('.card-header h5').html('<i class="fas fa-plus-circle me-2"></i>Add New Transaction');
         $('#cancelEdit').hide();
       }
-      
+
       // Handle form submission
       $('#transactionForm').on('submit', function(e) {
         e.preventDefault();
-        
+
         const formData = {
           user_id: 1, // Replace with actual user ID from session
           transaction_date: $('#transaction_date').val(),
@@ -501,7 +497,7 @@
           total_cash_sales: parseFloat($('#total_cash_sales').val()) || 0,
           daily_expense: parseFloat($('#daily_expense').val()) || 0
         };
-        
+
         // Basic validation
         if (!formData.transaction_date) {
           Swal.fire({
@@ -515,30 +511,30 @@
           });
           return;
         }
-        
+
         // Show loading state
         const submitBtn = $(this).find('button[type="submit"]');
         const originalBtnText = submitBtn.html();
         submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...');
-        
+
         // Determine if this is an update or create
         const transactionId = $('#transactionId').val();
         const isUpdate = Boolean(transactionId);
         const method = isUpdate ? 'PUT' : 'POST';
         let url = 'api/beef_transactions_handler.php';
-        
+
         // For updates, include the ID in the URL and add it to formData
         if (isUpdate) {
           url += '?id=' + encodeURIComponent(transactionId);
           formData.id = transactionId; // Ensure ID is included in the request body
         }
-        
+
         console.log(`Submitting ${method} request to:`, url);
         console.log('Request data:', formData);
-        
+
         console.log(`Sending ${method} request to:`, url);
         console.log('Request data:', formData);
-        
+
         $.ajax({
           url: url,
           method: method,
@@ -560,12 +556,12 @@
               resetForm();
               loadTransactions();
             } else {
-              const errorMsg = response && response.error 
-                ? response.error 
-                : 'Unknown error occurred';
-                
+              const errorMsg = response && response.error ?
+                response.error :
+                'Unknown error occurred';
+
               console.error('Error in response:', errorMsg);
-              
+
               Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -584,9 +580,9 @@
               responseText: xhr.responseText,
               error: error
             });
-            
+
             let errorMessage = 'An error occurred while processing your request.';
-            
+
             try {
               if (xhr.responseJSON && xhr.responseJSON.error) {
                 errorMessage = xhr.responseJSON.error;
@@ -600,7 +596,7 @@
               console.error('Error parsing error response:', e);
               errorMessage = 'Failed to process server response';
             }
-            
+
             if (xhr.status === 0) {
               errorMessage = 'Network error: Could not connect to the server. Please check your internet connection.';
             } else if (xhr.status === 404) {
@@ -608,7 +604,7 @@
             } else if (xhr.status >= 500) {
               errorMessage = 'Server error: Please try again later or contact support.';
             }
-            
+
             Swal.fire({
               icon: 'error',
               title: `Error ${xhr.status || ''}`.trim(),
@@ -624,26 +620,26 @@
           }
         });
       });
-      
+
       // Edit transaction
       $(document).on('click', '.edit-btn', function() {
         const transactionId = $(this).data('id');
-        
+
         // Show loading state
         const editBtn = $(this);
         const originalBtnText = editBtn.html();
         editBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
-        
+
         $.ajax({
           url: `api/beef_transactions_handler.php?id=${transactionId}`,
           type: 'GET',
           dataType: 'json',
           success: function(response) {
             editBtn.prop('disabled', false).html(originalBtnText);
-            
+
             if (response.success && response.data) {
               const transaction = response.data;
-              
+
               // Populate form with transaction data
               $('#transactionId').val(transaction.id);
               $('#transaction_date').val(transaction.transaction_date);
@@ -651,15 +647,15 @@
               $('#sell_price').val(parseFloat(transaction.sell_price).toFixed(2));
               $('#total_cash_sales').val(parseFloat(transaction.total_cash_sales).toFixed(2));
               $('#daily_expense').val(parseFloat(transaction.daily_expense).toFixed(2));
-              
+
               // Scroll to form
               $('html, body').animate({
                 scrollTop: $('#transactionForm').offset().top - 20
               }, 500);
-              
+
               // Recalculate derived values
               calculateDerivedValues();
-              
+
               // Change button text to Update
               $('#transactionForm button[type="submit"]').html('<i class="fas fa-save me-1"></i> Update Transaction');
             } else {
@@ -677,12 +673,12 @@
           error: function(xhr, status, error) {
             editBtn.prop('disabled', false).html(originalBtnText);
             console.error('Error loading transaction:', error);
-            
+
             let errorMessage = 'Failed to load transaction details. Please try again.';
             if (xhr.responseJSON && xhr.responseJSON.message) {
               errorMessage = xhr.responseJSON.message;
             }
-            
+
             Swal.fire({
               icon: 'error',
               title: 'Error',
@@ -695,12 +691,12 @@
           }
         });
       });
-      
+
       // Delete transaction
       $(document).on('click', '.delete-btn', function() {
         const transactionId = $(this).data('id');
         const transactionDate = $(this).closest('tr').find('td:first').text();
-        
+
         Swal.fire({
           title: 'Delete Transaction',
           html: `Are you sure you want to delete the transaction for <b>${transactionDate}</b>?<br><br>
@@ -715,7 +711,7 @@
         }).then((result) => {
           if (result.isConfirmed) {
             $.ajax({
-              url: `api/beef_transactions_handler.php?id=${id}`,
+              url: `api/beef_transactions_handler.php?id=${transactionId}`,
               method: 'DELETE',
               dataType: 'json',
               success: function(response) {
@@ -733,12 +729,12 @@
           }
         });
       });
-      
+
       // Handle cancel edit
       $('#cancelEdit').on('click', function() {
         resetForm();
       });
-      
+
       // Handle apply filter
       $('#applyFilter').on('click', function() {
         loadTransactions();
@@ -750,7 +746,7 @@
         $('button[type="submit"]').html('<i class="fas fa-save me-1"></i> Save Transaction');
         $('#cancelEdit').hide();
       }
-      
+
       // Cancel edit and reset form
       $('#cancelEdit').on('click', function() {
         resetForm();
@@ -758,7 +754,7 @@
           scrollTop: 0
         }, 500);
       });
-      
+
       // Show success message
       function showSuccess(message) {
         Swal.fire({
@@ -771,7 +767,7 @@
           timer: 3000
         });
       }
-      
+
       // Show error message
       function showError(message) {
         Swal.fire({
@@ -784,10 +780,10 @@
           timer: 5000
         });
       }
-      
+
       // Set current date as default
       $('#transaction_date').val(formatDate(today));
-      
+
       // Initial load of transactions
       loadTransactions();
     });
