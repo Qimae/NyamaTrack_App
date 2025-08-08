@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Account – NyamaTrack</title>
+  <style>
+    body {
+      background: #121212;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    form {
+      background: #1e1e1e;
+      padding: 2rem;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      margin-top: 15px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background-color: #2c2c2c;
+      color: white;
+    }
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 30px;
+      background-color: #f4b3b3;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    p {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #888;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <form id="registerForm" autocomplete="off" novalidate>
+    <h2>Create your account</h2>
+    <input type="email" id="email" placeholder="Email" required autocomplete="off" />
+    <input type="password" id="password" placeholder="Password" required autocomplete="off" />
+    <input type="password" id="confirm" placeholder="Confirm Password" required autocomplete="off" />
+    <input type="text" id="butchery" placeholder="Butchery Name" required autocomplete="off" />
+    <button type="submit" id="submitBtn">Create Account</button>
+    <p>By continuing, you agree to our Terms of Service and Privacy Policy</p>
+  </form>
+
+  <script>
+    // Pre-fill email if previously saved
+    document.getElementById("email").value = sessionStorage.getItem("userEmail") || "";
+
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm").value;
+      const butchery = document.getElementById("butchery").value.trim();
+      const submitBtn = document.getElementById("submitBtn");
+
+      // Disable button to prevent spam click
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Processing...";
+
+      // Trimmed field validation
+      if (!email || !password || !confirm || !butchery) {
+        alert("All fields are required.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Create Account";
+        return;
+      }
+
+      // Email format check
+      const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert("Invalid email format.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Create Account";
+        return;
+      }
+
+      // Strong password policy
+      const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$/;
+      if (!strongPassword.test(password)) {
+        alert("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Create Account";
+        return;
+      }
+
+      // Password match check
+      if (password !== confirm) {
+        alert("Passwords do not match.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Create Account";
+        return;
+      }
+
+      // Passed all checks
+      sessionStorage.setItem("verifiedUser", email);
+      window.location.href = "verify.html";
+    });
+  </script>
+</body>
+</html>

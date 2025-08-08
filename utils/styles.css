@@ -1,0 +1,227 @@
+:root {
+  --primary-color: #121417;
+  --secondary-color: #292E38;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --button-color: #1459B8;
+  --text-color: #fff;
+}
+
+body {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-color);
+}
+
+a {
+  color: var(--text-color);
+}
+
+button {
+  background-color: var(--button-color);
+  color: var(--text-color);
+}
+
+button:hover {
+  background-color: var(--text-color);
+  color: var(--primary-color);
+  border-color: var(--button-color);
+}
+
+button:active {
+  background-color: var(--text-color);
+  color: var(--primary-color);
+  border-color: var(--button-color);
+}
+
+button:focus {
+  background-color: var(--text-color);
+  color: var(--primary-color);
+  border-color: var(--button-color);
+}
+
+button:disabled {
+  background-color: var(--text-color);
+}
+
+button:disabled:hover {
+  background-color: var(--text-color);
+}
+
+button:disabled:active {
+  background-color: var(--text-color);
+}
+
+button:disabled:focus {
+  background-color: var(--text-color);
+}
+
+/* Dashboard styles */
+.dashboard {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  width: 100%;
+  margin-left: 0;
+}
+
+/* Adjust dashboard width for desktop view */
+@media (min-width: 768px) {
+  .dashboard {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+  }
+}
+
+#card {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+#card p, #card label, #card th, #card td, #card h1, #card h2, #card h3, #card h4, #card h5, #card h6 {
+  color: var(--text-color);
+}
+
+
+
+/* Chart container styling */
+#chart-card {
+  margin-bottom: 6rem;
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+  overflow: hidden;
+  color: var(--text-color);
+}
+#chart-card p {
+  color: var(--text-color);
+}
+
+.chart-container canvas {
+  width: 100%;
+  height: auto;
+}
+
+.reports {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  width: 100%;
+  margin-left: 0;
+}
+.reports input {
+  color: var(--text-color);
+  border: none;
+  background-color: var(--primary-color);
+  border-bottom: 2px solid var(--secondary-color);
+  border-radius: 0;
+}
+
+.reports button {
+  color: var(--text-color);
+  background-color: var(--button-color);
+  border: none;
+  padding: 10px 20px;
+}
+.reports #card {
+  background-color: var(--secondary-color);
+}
+
+/* Table with secondary background and appropriate text color */
+.reports #table,
+.reports #table th,
+.reports #table td {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
+/* Optional border removal for a cleaner dark table */
+.reports #table thead th {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.reports #table tbody tr {
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.reports #table tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* Adjust dashboard width for desktop view */
+@media (min-width: 768px) {
+  .reports {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+  }
+}
+
+
+/* Transactions styles */
+.transactions {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  width: 100%;
+  margin-left: 0;
+}
+.transactions input {
+  color: var(--text-color);
+  border: none;
+  background-color: var(--primary-color);
+  border-bottom: 2px solid var(--secondary-color);
+  border-radius: 0;
+}
+/* Placeholder text color */
+.transactions input::placeholder {
+  color: #ffffff;
+  opacity: 0.7; /* slightly muted white */
+}
+.transactions input::-webkit-input-placeholder {
+  color: #ffffff;
+  opacity: 0.7;
+}
+.transactions input:-ms-input-placeholder {
+  color: #ffffff;
+  opacity: 0.7;
+}
+.transactions button {
+  color: var(--text-color);
+  background-color: var(--button-color);
+  border: none;
+  padding: 8px;
+}
+.transactions #card {
+  background-color: var(--secondary-color);
+}
+.transactions #transactionsTable,
+.transactions #transactionsTable th,
+.transactions #transactionsTable td {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  padding: .5rem .5rem;
+}
+
+/* Optional border removal for a cleaner dark transactionsTable */
+.transactions #transactionsTable thead th {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.transactions #transactionsTable tbody tr {
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.transactions #transactionsTable tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* Adjust dashboard width for desktop view */
+@media (min-width: 768px) {
+  .transactions {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+    height: 100vh;
+  }
+}
+
