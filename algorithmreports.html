@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NyamaTrack — Algorithm Reports (Forecast) | Nyamatrack.co.ke</title>
+  <meta name="description" content="Algorithm reports. Upload sales CSV and forecast future monthly income with trend + seasonality or Holt‑Winters. Nyamatrack.co.ke" />
+  <style>
+    :root{
+      color-scheme: dark;
+      --bg:#0a0a0a; --bg-2:#0c0c0c; --card:#141414; --muted:#a1a1aa; --border:#262626;
+      --primary:#e11d48; --accent:#f59e0b; --good:#22c55e; --bad:#f43f5e;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica Neue,Arial;color:white;background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:24px}
+    header{position:sticky;top:0;background:color-mix(in oklab, var(--bg-2), transparent 20%);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);z-index:40}
+    nav{display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:700}
+    .brand-badge{width:28px;height:28px;border-radius:8px;background:radial-gradient(120px 80px at 70% 20%, var(--primary), transparent),radial-gradient(120px 80px at 20% 80%, var(--accent), transparent),linear-gradient(120deg,#1f1f1f,#0a0a0a);border:1px solid var(--border);box-shadow:0 0 24px color-mix(in oklab, var(--primary), transparent 70%)}
+    .nav-links{display:flex;gap:14px;flex-wrap:wrap}
+    .nav-links a{color:var(--muted)}
+    .nav-links a[aria-current="page"]{color:white}
+    .bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(1200px 700px at -10% -20%, #1a0a0a 25%, transparent 60%),radial-gradient(900px 700px at 110% 110%, #14100a 25%, transparent 60%),linear-gradient(180deg,#0a0a0a,#0b0b0b)}
+    .orb{position:absolute;width:600px;height:600px;border-radius:50%;filter:blur(70px);opacity:.25;mix-blend:screen}
+    .orb.red{left:-120px;top:-120px;background:radial-gradient(circle at 30% 30%, var(--primary), transparent 60%);animation:float 16s ease-in-out infinite}
+    .orb.amber{right:-120px;bottom:-120px;background:radial-gradient(circle at 60% 60%, var(--accent), transparent 60%);animation:float 20s ease-in-out infinite}
+    .grid-overlay{position:absolute;inset:0;background:linear-gradient(to right, rgba(255,255,255,.04) 1px, transparent 1px) 0 0/40px 40px,linear-gradient(to bottom, rgba(255,255,255,.04) 1px, transparent 1px) 0 0/40px 40px;mask-image:radial-gradient(1200px 800px at 50% 0%, black, transparent)}
+    @keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-30px)}}
+    main{padding:34px 0}
+    .hero{text-align:center}
+    .hero h1{margin:0;font-size:clamp(26px,3.6vw,40px)}
+    .muted{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+    @media (max-width:1000px){.grid{grid-template-columns:1fr}}
+    .card{background:linear-gradient(180deg,#161616,#121212);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+    label{font-size:13px;color:var(--muted)}
+    input,select{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:#0a0a0a;color:white}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:linear-gradient(180deg,#1b1b1b,#121212);color:white;cursor:pointer}
+    .btn.primary{background:linear-gradient(180deg, color-mix(in oklab, var(--primary) 80%, #0a0a0a), #8a0f2d); border-color:#5a0a20}
+    .btn.ghost{background:transparent}
+    .kpi{display:grid;gap:6px}
+    .kpi .value{font-weight:700;font-size:20px}
+    canvas{width:100%;height:340px;background:#0a0a0a;border-radius:12px;border:1px solid var(--border)}
+    .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:white;border:1px solid var(--border);padding:4px 8px;border-radius:999px;background:#0a0a0a}
+    footer{color:var(--muted);font-size:13px;padding:24px 0 48px;text-align:center}
+    code{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <div class="orb red"></div>
+    <div class="orb amber"></div>
+    <div class="grid-overlay"></div>
+  </div>
+  <header>
+    <div class="container">
+      <nav aria-label="Primary">
+        <div class="brand">
+          <div class="brand-badge" aria-hidden="true"></div>
+          <a href="subscription.html" aria-label="NyamaTrack home">NyamaTrack</a>
+          <span class="pill">Nyamatrack.co.ke</span>
+        </div>
+        <div class="nav-links">
+          <a href="subscription.html">Subscription</a>
+          <a href="daily-reports.html">Daily Reports</a>
+          <a href="algorithm-reports.html" aria-current="page">Algorithm Reports</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Algorithm Reports — Monthly Income Forecast</h1>
+      <p class="muted">Upload historical monthly sales (KES) or use demo data, then forecast future income with confidence bands.</p>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <strong>Data</strong>
+        <div class="row" style="margin-top:8px">
+          <div style="flex:1">
+            <label for="csv">Upload CSV (<code>date,sales</code>)</label>
+            <input id="csv" type="file" accept=".csv,text/csv" />
+          </div>
+          <button class="btn" id="load-demo">Load Demo Data</button>
+          <button class="btn" id="download-template">CSV Template</button>
+        </div>
+
+        <div class="row" style="margin-top:12px">
+          <div>
+            <label for="method">Method</label>
+            <select id="method">
+              <option value="trend-seasonal">Trend + Seasonal Indices</option>
+              <option value="holt-winters">Holt‑Winters (Additive)</option>
+            </select>
+          </div>
+          <div>
+            <label for="horizon">Forecast Horizon (months)</label>
+            <select id="horizon">
+              <option>6</option><option selected>12</option><option>18</option><option>24</option>
+            </select>
+          </div>
+          <div id="hw-params" class="row" style="display:none">
+            <div><label>Alpha</label><input id="alpha" type="number" step="0.01" min="0" max="1" value="0.2"></div>
+            <div><label>Beta</label><input id="beta" type="number" step="0.01" min="0" max="1" value="0.05"></div>
+            <div><label>Gamma</label><input id="gamma" type="number" step="0.01" min="0" max="1" value="0.05"></div>
+          </div>
+          <button class="btn primary" id="run">Run Forecast</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <strong>Quality</strong>
+        <div class="grid" style="grid-template-columns: repeat(3,1fr); margin-top:10px">
+          <div class="kpi"><div class="muted">MAPE</div><div class="value" id="mape">—</div></div>
+          <div class="kpi"><div class="muted">RMSE</div><div class="value" id="rmse">—</div></div>
+          <div class="kpi"><div class="muted">R²</div><div class="value" id="r2">—</div></div>
+        </div>
+        <div style="margin-top:8px" class="muted">Metrics computed on in‑sample fit. Confidence bands assume residual normality.</div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <strong>Forecast</strong>
+        <div class="row">
+          <span class="pill">80% CI</span>
+          <span class="pill">95% CI</span>
+          <button class="btn" id="export-forecast">Download CSV</button>
+        </div>
+      </div>
+      <canvas id="lineChart" role="img" aria-label="Line chart of historical and forecast monthly income"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> NyamaTrack — Nyamatrack.co.ke
+  </footer>
+
+  <script>
+    // Utilities
+    function parseCSV(text){
+      const lines = text.trim().split(/\r?\n/);
+      const out = [];
+      for(const line of lines){
+        const parts = [];
+        let cur='', inQ=false;
+        for(let i=0;i<line.length;i++){
+          const c=line[i];
+          if(c==='"'){ if(line[i+1]==='"'){cur+='"'; i++;} else { inQ=!inQ; } }
+          else if(c===',' && !inQ){ parts.push(cur.trim()); cur=''; }
+          else cur+=c;
+        }
+        parts.push(cur.trim());
+        out.push(parts);
+      }
+      return out;
+    }
+    function formatKES(n){ return 'KES ' + Math.round(n).toLocaleString('en-KE'); }
+    function mean(a){ return a.reduce((s,x)=>s+x,0)/a.length; }
+    function stdev(a){ const m=mean(a); return Math.sqrt(a.reduce((s,x)=>s+(x-m)*(x-m),0)/Math.max(1,a.length-1)); }
+    function linReg(y){
+      // x = 0..n-1
+      const n=y.length; const sx=(n-1)n/2; const sxx=(n-1)*n(2*n-1)/6; const sy=y.reduce((s,v)=>s+v,0);
+      const sxy=y.reduce((s,v,i)=>s+i*v,0);
+      const denom = n*sxx - sx*sx || 1;
+      const b = (n*sxy - sx*sy)/denom;
+      const a = (sy - b*sx)/n;
+      const fit = y.map((_,i)=>a + b*i);
+      return {a,b,fit};
+    }
+    function seasonalIndices(y, m=12){
+      const k = Math.floor(y.length/m); if(k<1) return Array(m).fill(0);
+      const sums = Array(m).fill(0), counts=Array(m).fill(0);
+      const {fit} = linReg(y);
+      for(let i=0;i<y.length;i++){
+        const month = i % m;
+        const resid = y[i] - fit[i];
+        sums[month]+=resid; counts[month]+=1;
+      }
+      const avg = sums.map((s,i)=> s/(counts[i]||1));
+      const meanAdj = mean(avg);
+      return avg.map(v=> v - meanAdj); // zero-mean additive seasonality
+    }
+    function applyTrendSeasonal(y, horizon=12, m=12){
+      const {a,b,fit} = linReg(y);
+      const seas = seasonalIndices(y, m);
+      const fitted = y.map((_,i)=> fit[i] + seas[i % m]);
+      const resid = y.map((v,i)=> v - fitted[i]);
+      const sigma = stdev(resid);
+      const forecast = [];
+      for(let h=1; h<=horizon; h++){
+        const idx = y.length + h - 1;
+        const base = a + b*idx + seas[idx % m];
+        forecast.push(base);
+      }
+      return {fitted, forecast, sigma};
+    }
+    // Holt-Winters (additive)
+    function holtWintersAdditive(y, m=12, alpha=0.2, beta=0.05, gamma=0.05, horizon=12){
+      const L = []; const T = []; const S = Array(y.length).fill(0);
+      const seasonInit = seasonalIndices(y, m); // additive seasonal init
+      let l0 = mean(y.slice(0,m));
+      let t0 = (mean(y.slice(m,2*m)) - mean(y.slice(0,m))) / m;
+      for(let i=0;i<m;i++){ S[i] = seasonInit[i]; }
+      L[0]=l0; T[0]=t0;
+      const fitted = [];
+      for(let i=0;i<y.length;i++){
+        const s = i>=m ? S[i-m] : S[i];
+        const l = (alpha)(y[i] - s) + (1-alpha)((L[i-1]??l0) + (T[i-1]??t0));
+        const t = beta*(l - (L[i-1]??l0)) + (1-beta)*(T[i-1]??t0);
+        const sNew = gamma*(y[i] - l) + (1-gamma)*s;
+        L[i]=l; T[i]=t; S[i]=sNew;
+        fitted[i] = l + t + s; // approximation
+      }
+      const resid = y.map((v,i)=> v - fitted[i]);
+      const sigma = stdev(resid);
+      const forecast = [];
+      const last = y.length - 1;
+      for(let h=1; h<=horizon; h++){
+        forecast.push(L[last] + h*T[last] + S[last - m + (h % m)]);
+      }
+      return {fitted, forecast, sigma};
+    }
+
+    // Chart
+    function drawLines(canvas, series){
+      const dpr = window.devicePixelRatio || 1;
+      const ctx = canvas.getContext('2d');
+      const W = canvas.clientWidth * dpr, H = canvas.clientHeight * dpr;
+      canvas.width = W; canvas.height = H; ctx.scale(dpr,dpr);
+      const w=canvas.clientWidth, h=canvas.clientHeight;
+      const pad={l:48,r:12,t:12,b:32};
+      const xs = series.flatMap(s=>s.x);
+      const ys = series.flatMap(s=>s.y.filter(v=>Number.isFinite(v)));
+      const minX = Math.min(...xs), maxX = Math.max(...xs);
+      const minY = Math.min(...ys), maxY = Math.max(...ys);
+      const scaleX = x => pad.l + (x - minX)/(maxX - minX || 1) * (w - pad.l - pad.r);
+      const scaleY = y => h - pad.b - (y - minY)/(maxY - minY || 1) * (h - pad.t - pad.b);
+      ctx.clearRect(0,0,w,h);
+      // grid
+      ctx.strokeStyle='rgba(255,255,255,.08)'; ctx.lineWidth=1;
+      for(let i=0;i<=5;i++){
+        const y = pad.t + (h-pad.t-pad.b)*i/5;
+        ctx.beginPath(); ctx.moveTo(pad.l,y); ctx.lineTo(w-pad.r,y); ctx.stroke();
+      }
+      // axes
+      ctx.strokeStyle='rgba(255,255,255,.15)'; ctx.beginPath(); ctx.moveTo(pad.l,pad.t); ctx.lineTo(pad.l,h-pad.b); ctx.lineTo(w-pad.r,h-pad.b); ctx.stroke();
+      // y labels
+      ctx.fillStyle='rgba(255,255,255,.7)'; ctx.font='12px system-ui';
+      for(let i=0;i<=5;i++){
+        const val = minY + (maxY - minY)*i/5;
+        ctx.fillText(Math.round(val).toLocaleString('en-KE'), 6, h-pad.b - (h-pad.t-pad.b)*i/5 + 4);
+      }
+      // series
+      for(const s of series){
+        ctx.lineWidth = s.width || 2;
+        if(s.fill){
+          ctx.beginPath();
+          s.x.forEach((x,i)=>{ const px=scaleX(x), py=scaleY(s.y[i]); i?ctx.lineTo(px,py):ctx.moveTo(px,py); });
+          // down to baseline using paired fillY if provided
+          for(let i=s.x.length-1;i>=0;i--){
+            const px=scaleX(s.x[i]), py=scaleY(s.fillY[i]);
+            ctx.lineTo(px, py);
+          }
+          const g = ctx.createLinearGradient(0,pad.t,0,h-pad.b);
+          g.addColorStop(0, s.color.replace('1)', '.25)'));
+          g.addColorStop(1, s.color.replace('1)', '.02)'));
+          ctx.fillStyle = g; ctx.fill();
+        }
+        ctx.beginPath();
+        s.x.forEach((x,i)=>{ const px=scaleX(x), py=scaleY(s.y[i]); i?ctx.lineTo(px,py):ctx.moveTo(px,py); });
+        ctx.strokeStyle=s.color; ctx.stroke();
+      }
+    }
+
+    // Data & State
+    let data = []; // [{date: Date, sales: number}]
+    function monthAdd(d, n){ const dt=new Date(d); dt.setMonth(dt.getMonth()+n); return dt; }
+    function aggregateMonthly(rows){
+      // rows: [{date, sales}] possibly daily; group by month
+      const map = new Map();
+      for(const r of rows){
+        const k = r.date.getFullYear()+'-'+String(r.date.getMonth()+1).padStart(2,'0');
+        map.set(k, (map.get(k)||0) + r.sales);
+      }
+      const keys = Array.from(map.keys()).sort();
+      return keys.map(k=>{
+        const [y,m] = k.split('-').map(Number);
+        return {date: new Date(y, m-1, 1), sales: map.get(k)};
+      });
+    }
+
+    function computeForecast(){
+      if(data.length < 8){
+        alert('Please provide at least 8 months of data (12+ recommended).');
+        return null;
+      }
+      const monthly = data; // already monthly in our UI
+      const y = monthly.map(r=>r.sales);
+      const horizon = +document.getElementById('horizon').value;
+      const method = document.getElementById('method').value;
+      let result;
+      if(method==='holt-winters'){
+        const m=12;
+        const alpha = +document.getElementById('alpha').value;
+        const beta  = +document.getElementById('beta').value;
+        const gamma = +document.getElementById('gamma').value;
+        result = holtWintersAdditive(y, m, alpha, beta, gamma, horizon);
+      } else {
+        result = applyTrendSeasonal(y, horizon, 12);
+      }
+      const fitted = result.fitted;
+      const sigma = result.sigma || (function(){ const r=y.map((v,i)=> v - (fitted[i]||0)); return Math.sqrt(r.reduce((s,z)=>s+z*z,0)/(r.length||1)); })();
+      // Metrics
+      const mape = (y.reduce((s,v,i)=> s + Math.abs((v - (fitted[i]||0))/Math.max(1,v)),0)/y.length) * 100;
+      const rmse = Math.sqrt(y.reduce((s,v,i)=> s + Math.pow(v-(fitted[i]||0),2),0)/y.length);
+      const ybar = y.reduce((s,v)=>s+v,0)/y.length;
+      const ssTot = y.reduce((s,v)=>s+Math.pow(v-ybar,2),0);
+      const ssRes = y.reduce((s,v,i)=>s+Math.pow(v-(fitted[i]||0),2),0);
+      const r2 = 1 - ssRes/(ssTot || 1);
+
+      // Build X domain
+      const xHist = monthly.map((r,i)=> i);
+      const xFut = Array.from({length: horizon}, (_,i)=> monthly.length + i);
+      // Confidence bands
+      const f = result.forecast;
+      const ci80 = 1.2816 * sigma;
+      const ci95 = 1.9599 * sigma;
+      return {monthly, fitted, forecast:f, xHist, xFut, mape, rmse, r2, ci80, ci95};
+    }
+
+    function renderChart(payload){
+      const {monthly, fitted, forecast, xHist, xFut, ci80, ci95} = payload;
+      const canvas = document.getElementById('lineChart');
+      const histX = xHist.map(x=>x);
+      const histY = monthly.map(r=>r.sales);
+      const fitY  = fitted;
+      const futX = xFut.map(x=>x);
+      const futY = forecast;
+      const fut80Hi = futY.map(v=>v+ci80), fut80Lo = futY.map(v=>v-ci80);
+      const fut95Hi = futY.map(v=>v+ci95), fut95Lo = futY.map(v=>v-ci95);
+      const series = [
+        {x: histX, y: histY, color:'rgba(250,250,250,1)', width:2},       // actual
+        {x: histX, y: fitY,  color:'rgba(245,158,11,1)', width:1.5},     // fitted
+        {x: futX,  y: fut95Hi, fill:true, fillY:fut95Lo, color:'rgba(225,29,72,1)', width:0.5}, // 95% band
+        {x: futX,  y: fut80Hi, fill:true, fillY:fut80Lo, color:'rgba(34,197,94,1)', width:0.5}, // 80% band
+        {x: futX,  y: futY, color:'rgba(225,29,72,1)', width:2}          // forecast
+      ];
+      drawLines(canvas, series);
+    }
+
+    function downloadForecastCSV(payload){
+      const {monthly, forecast} = payload;
+      const start = monthly[monthly.length-1].date;
+      const rows = [];
+      for(let i=1; i<=forecast.length; i++){
+        const d = monthAdd(start, i);
+        rows.push([d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'), Math.round(forecast[i-1])]);
+      }
+      const csv = ['month,forecast_kes', ...rows.map(r=>r.join(','))].join('\n');
+      const blob = new Blob([csv],{type:'text/csv'});
+      const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='nyamatrack_forecast.csv'; a.click(); URL.revokeObjectURL(a.href);
+    }
+
+    // UI handlers
+    const fileInput = document.getElementById('csv');
+    const methodSel = document.getElementById('method');
+    const hwParams = document.getElementById('hw-params');
+    methodSel.addEventListener('change', ()=>{
+      hwParams.style.display = methodSel.value==='holt-winters' ? 'flex' : 'none';
+    });
+
+    fileInput.addEventListener('change', async (e)=>{
+      const file = e.target.files[0];
+      if(!file) return;
+      const text = await file.text();
+      const rows = parseCSV(text);
+      // Expect header date,sales
+      const body = rows[0][0]?.toLowerCase?.().includes('date') ? rows.slice(1): rows;
+      const parsed = body.map(r=>{
+        const d = new Date(r[0]);
+        const sales = +String(r[1]).replace(/[, ]/g,'');
+        return {date: new Date(d.getFullYear(), d.getMonth(), 1), sales};
+      }).filter(r=>Number.isFinite(r.sales) && !isNaN(r.date));
+      data = aggregateMonthly(parsed);
+      alert('Loaded ' + data.length + ' rows.');
+    });
+
+    document.getElementById('download-template').addEventListener('click', ()=>{
+      const csv = 'date,sales\n2024-01-01,1250000\n2024-02-01,1170000\n2024-03-01,1330000\n';
+      const blob = new Blob([csv],{type:'text/csv'});
+      const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='nyamatrack_template.csv'; a.click(); URL.revokeObjectURL(a.href);
+    });
+
+    document.getElementById('load-demo').addEventListener('click', ()=>{
+      // Generate 30 months with seasonality + trend + noise
+      const start = new Date(2022,0,1);
+      const months = 30;
+      const base = 900000; let trend = 18000; // per month
+      const season = [80,40,0,-20,-50,-30,20,60,120,180,220,140].map(x=>x*300); // additive seasonal effect
+      const arr = [];
+      for(let i=0;i<months;i++){
+        const d = new Date(start.getFullYear(), start.getMonth()+i, 1);
+        const v = base + trend*i + season[i%12] + (Math.random()-0.5)*80000;
+        arr.push({date:d, sales: Math.max(300000, Math.round(v))});
+      }
+      data = arr;
+      alert('Demo data loaded: ' + data.length + ' months.');
+    });
+
+    let lastPayload = null;
+    document.getElementById('run').addEventListener('click', ()=>{
+      const payload = computeForecast();
+      if(!payload) return;
+      lastPayload = payload;
+      document.getElementById('mape').textContent = payload.mape.toFixed(1) + '%';
+      document.getElementById('rmse').textContent = formatKES(payload.rmse);
+      document.getElementById('r2').textContent = payload.r2.toFixed(3);
+      renderChart(payload);
+    });
+
+    document.getElementById('export-forecast').addEventListener('click', ()=>{
+      if(!lastPayload){ alert('Run a forecast first.'); return; }
+      downloadForecastCSV(lastPayload);
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
