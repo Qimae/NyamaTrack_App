@@ -1,12 +1,14 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>NyamaTrack — Daily Reports | Nyamatrack.co.ke</title>
-  <meta name="description" content="Daily sales, expenses, profit and inventory reports for your butchery. Export CSV, print, and visualize trends. Nyamatrack.co.ke" />
+  <title>NyamaTrack — Algorithm Reports | Nyamatrack.co.ke</title>
+  <meta name="description" content="Upload historical monthly sales (KES) or use demo data, then forecast future income with confidence bands. Nyamatrack.co.ke" />
   <link rel="stylesheet" href="utils/becken.css">
 </head>
+
 <body>
   <div class="bg" aria-hidden="true">
     <div class="orb red"></div>
@@ -18,13 +20,12 @@
       <nav aria-label="Primary">
         <div class="brand">
           <div class="brand-badge" aria-hidden="true"></div>
-          <a href="subscription.html" aria-label="NyamaTrack home">NyamaTrack</a>
+          <a href="subscription.php" aria-label="NyamaTrack home">NyamaTrack</a>
           <span class="pill">Nyamatrack.co.ke</span>
         </div>
         <div class="nav-links">
-          <a href="subscription.html">Subscription</a>
-          <a href="daily-reports.html" aria-current="page">Daily Reports</a>
-          <a href="algorithm-reports.html">Algorithm Reports</a>
+          <a href="subscription.php">Subscription</a>
+          <a href="algorithm_report.php" aria-current="page">Algorithm Reports</a>
         </div>
       </nav>
     </div>
@@ -32,8 +33,8 @@
 
   <main class="container">
     <section class="hero">
-      <h1>Daily Reports</h1>
-      <p class="muted">Track today’s sales, expenses, profit and inventory across outlets. Export and print in one click.</p>
+      <h1>Advanced Analytics & Projections</h1>
+      <p class="muted">Leverage our predictive algorithms to forecast sales trends, optimize inventory, and maximize your butchery's profitability.</p>
     </section>
 
     <section class="controls" aria-label="Filters">
@@ -107,15 +108,21 @@
         <table aria-describedby="tx-count">
           <thead>
             <tr>
-              <th>Date/Time</th>
-              <th>Outlet</th>
-              <th>Category</th>
-              <th>Type</th>
-              <th>Qty (kg)</th>
-              <th>Amount (KES)</th>
+              <th>Date</th>
+              <th>Buy Price</th>
+              <th>Sell Price</th>
+              <th>Total Cash Sales</th>
+              <th>Daily Expense</th>
+              <th>Total Cash</th>
+              <th>Total Kilos</th>
+              <th>Profit per KG</th>
+              <th>Profit</th>
+              <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="tbody"></tbody>
+          <tbody>
+            <!-- Data will be loaded via JavaScript -->
+          </tbody>
         </table>
       </div>
     </section>
@@ -125,6 +132,41 @@
     © <span id="year"></span> NyamaTrack — Nyamatrack.co.ke
   </footer>
 
+  <!-- Include Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
+  <!-- Include our custom JavaScript -->
+  <script src="js/algorithm_report.js"></script>
+
+  <style>
+    /* Add some styling for projected rows */
+    tr.projected {
+      opacity: 0.8;
+      background-color: rgba(75, 192, 192, 0.1) !important;
+    }
+    
+    /* Make sure the chart has a defined size */
+    #barChart {
+      width: 100%;
+      height: 400px;
+    }
+    
+    /* Style the loading spinner */
+    .spinner {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 0.5em;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </body>
+
 </html>

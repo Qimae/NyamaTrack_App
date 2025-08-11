@@ -1,13 +1,18 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>NyamaTrack — Subscription | Nyamatrack.co.ke</title>
   <meta name="description" content="Subscribe your butchery to NyamaTrack. Flexible pricing, M‑Pesa and card options. Nyamatrack.co.ke" />
   <link rel="stylesheet" href="utils/becken.css">
+  <link rel="stylesheet" href="utils/styles.css">
 </head>
+
 <body>
+  <?php include 'includes/left-sidebar.php'; ?>
+  <?php include 'includes/bottom-sidebar.php'; ?>
   <div class="bg" aria-hidden="true">
     <div class="orb red" style="left:-120px; top:-120px"></div>
     <div class="orb amber" style="right:-120px; bottom:-120px"></div>
@@ -18,13 +23,12 @@
       <nav aria-label="Primary">
         <div class="brand">
           <div class="brand-badge" aria-hidden="true"></div>
-          <a href="subscription.html" aria-label="NyamaTrack home">NyamaTrack</a>
+          <a href="subscription.php" aria-label="NyamaTrack home">NyamaTrack</a>
           <span class="pill">Nyamatrack.co.ke</span>
         </div>
         <div class="nav-links">
-          <a href="subscription.html" aria-current="page">Subscription</a>
-          <a href="daily-reports.html">Daily Reports</a>
-          <a href="algorithm-reports.html">Algorithm Reports</a>
+          <a href="subscription.php" aria-current="page">Subscription</a>
+          <a href="algorithm_report.php">Algorithm Reports</a>
         </div>
       </nav>
     </div>
@@ -125,7 +129,9 @@
         <button class="btn ghost" id="close-dialog" aria-label="Close dialog">Close</button>
       </div>
       <p class="muted" id="pmt-desc">If paying via M‑Pesa, approve the STK push on your phone.</p>
-      <div class="row" style="align-items:center"><div class="spinner" aria-hidden="true"></div> <span id="pmt-status">Awaiting confirmation…</span></div>
+      <div class="row" style="align-items:center">
+        <div class="spinner" aria-hidden="true"></div> <span id="pmt-status">Awaiting confirmation…</span>
+      </div>
     </div>
   </div>
 
@@ -133,6 +139,7 @@
     © <span id="year"></span> NyamaTrack — Nyamatrack.co.ke
   </footer>
 
-  
+
 </body>
+
 </html>

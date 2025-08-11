@@ -86,6 +86,7 @@ nav {
 .nav-links a[aria-current="page"] {
   color: white
 }
+
 /* kim 1st */
 
 .bg {
@@ -107,14 +108,14 @@ nav {
   animation: float 16s ease-in-out infinite;
 }
 
-.orb.red {
+.orb .red {
   left: -120px;
   top: -120px;
   background: radial-gradient(circle at 30% 30%, var(--primary), transparent 60%);
   animation: float 16s ease-in-out infinite
 }
 
-.orb.amber {
+.orb .amber {
   right: -120px;
   bottom: -120px;
   background: radial-gradient(circle at 60% 60%, var(--accent), transparent 60%);
@@ -161,6 +162,7 @@ main {
 .muted {
   color: var(--muted)
 }
+
 .content {
   display: grid;
   grid-template-columns: 1.2fr .8fr;
@@ -173,6 +175,7 @@ main {
     grid-template-columns: 1fr
   }
 }
+
 /* kim 2st */
 
 .controls {
@@ -206,6 +209,7 @@ main {
   color: white;
   cursor: pointer
 }
+
 .btn:hover {
   transform: translateY(-1px)
 }
@@ -228,6 +232,7 @@ main {
   gap: 10px;
   flex-wrap: wrap
 }
+
 .field {
   display: grid;
   gap: 8px;
@@ -256,8 +261,8 @@ select:focus {
 }
 
 
- /* Plans */
- .plans {
+/* Plans */
+.plans {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px
@@ -292,7 +297,7 @@ select:focus {
 
 .plan .price {
   font-size: 28px;
-  font-weight: 700
+  font-weight: 700;
 }
 
 .grid {
@@ -433,6 +438,7 @@ tbody tr:hover {
   border-radius: 999px;
   background: #0a0a0a
 }
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -505,6 +511,7 @@ footer {
   padding: 24px 0 48px;
   text-align: center;
 }
+
 code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
 }
