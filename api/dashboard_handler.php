@@ -22,11 +22,18 @@ function getDashboardSummary($business_name) {
         $end_date = date('Y-m-d');
         $start_date = date('Y-m-d', strtotime('-30 days'));
         
-        // Query to get transactions for the period
+        // Query to get beef transactions for the period
         $stmt = $pdo->prepare("
-            SELECT * FROM beef_transactions 
+            SELECT *, 'beef' as transaction_type FROM beef_transactions 
             WHERE business_name = :business_name 
             AND transaction_date BETWEEN :start_date AND :end_date
+            
+            UNION ALL
+            
+            SELECT *, 'goat' as transaction_type FROM goat_transactions 
+            WHERE business_name = :business_name 
+            AND transaction_date BETWEEN :start_date AND :end_date
+            
             ORDER BY transaction_date DESC
         ");
         
