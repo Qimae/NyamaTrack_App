@@ -68,6 +68,10 @@
       <i class="fas fa-file-invoice-dollar"></i>
       <span>Reports</span>
     </a>
+    <a href="algorithm_report.php" class="sidebar-link">
+      <i class="fas fa-file-invoice-dollar"></i>
+      <span>Algorithm Reports</span>
+    </a>
     <a href="payments.php" class="sidebar-link">
       <i class="fas fa-money-bill"></i>
       <span>Payments</span>

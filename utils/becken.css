@@ -515,3 +515,65 @@ footer {
 code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
 }
+
+.positive { color: #10b981; }
+.negative { color: #ef4444; }
+.projection { opacity: 0.7; }
+
+/* Make table container responsive with fixed height and scrolling */
+.table-wrap {
+  max-height: 50vh;
+  overflow: auto;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+}
+
+/* Style the scrollbar */
+.table-wrap::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-wrap::-webkit-scrollbar-track {
+  border-radius: 4px;
+}
+
+.table-wrap::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+}
+
+.table-wrap::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Make table headers sticky */
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-wrap thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Add some padding and borders for better readability */
+.table-wrap th,
+.table-wrap td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+/* Make table responsive on small screens */
+@media (max-width: 768px) {
+  .table-wrap {
+    font-size: 0.875rem;
+  }
+  
+  .table-wrap th,
+  .table-wrap td {
+    padding: 0.5rem 0.75rem;
+  }
+}

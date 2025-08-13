@@ -11,8 +11,19 @@
 
 </head>
 <body>
+  <!-- Loading Overlay -->
+  <div id="loading" class="position-fixed w-100 h-100 bg-dark bg-opacity-75 d-flex justify-content-center align-items-center" style="z-index: 9999; top: 0; left: 0; display: none;">
+    <div class="text-center text-white">
+      <div class="spinner-border mb-3" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <h4>Loading Reports Data...</h4>
+    </div>
+  </div>
+
   <?php include 'includes/left-sidebar.php'; ?>
   <?php include 'includes/bottom-sidebar.php'; ?>
+  <script src="js/reports_script.js"></script>
   <main class="py-4 reports">
     <div class="container-fluid">
       <div class="row mb-4">
@@ -37,9 +48,9 @@
       </div>
       <div class="row">
         <div class="col-12">
-        <div class="card" id="chart-card">
+          <div class="card" id="chart-card">
             <div class="card-body">
-              <h5 class="card-title mb-4">Current Month Sales (Fake Data)</h5>
+              <h5 class="card-title mb-4">Sales Overview</h5>
               <div class="chart-container" style="position: relative; height: 400px;">
                 <canvas id="salesChart"></canvas>
               </div>
@@ -49,39 +60,32 @@
           <!-- Summary Table -->
           <div class="card mt-4" id="card">
             <div class="card-body">
-              <h5 class="card-title mb-4">Sales Summary</h5>
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="card-title mb-0">Sales Summary (Last 30 Days)</h5>
+                <button id="refresh-reports" class="btn btn-outline-light">
+                  <i class="fas fa-sync-alt me-2"></i>Refresh
+                </button>
+              </div>
               <div class="table-responsive">
-                <table class="table table-hover" id="table">
-                  <thead>
+                <table class="table table-hover bg-custom" id="reports-table">
+                  <thead class="table-light">
                     <tr>
                       <th>Metric</th>
                       <th class="text-end">Value</th>
-                      <th class="text-end">% Change (vs Previous Period)</th>
+                      <th class="text-end">Change (vs Previous Period)</th>
                     </tr>
                   </thead>
                   <tbody>
+                    <!-- Data will be populated by JavaScript -->
                     <tr>
-                      <td>Total Sales</td>
-                      <td class="text-end">Ksh 245,780</td>
-                      <td class="text-end text-success">+12.5% <i class="fas fa-arrow-up"></i></td>
-                    </tr>
-                    <tr>
-                      <td>Number of Orders</td>
-                      <td class="text-end">156</td>
-                      <td class="text-end text-success">+8.3% <i class="fas fa-arrow-up"></i></td>
-                    </tr>
-                    <tr>
-                      <td>Average Order Value</td>
-                      <td class="text-end">Ksh 1,575</td>
-                      <td class="text-end text-success">+3.9% <i class="fas fa-arrow-up"></i></td>
-                    </tr>
-                    <tr>
-                      <td>Most Sold Item</td>
-                      <td class="text-end">Choma Chops (45)</td>
-                      <td class="text-end">-</td>
+                      <td colspan="3" class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div class="mt-2">Loading data...</div>
+                      </td>
                     </tr>
                   </tbody>
-                </table>
               </div>
             </div>
           </div>
@@ -92,62 +96,6 @@
     </div>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    // Generate labels and fake sales data for the current month
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const labels = Array.from({length: daysInMonth}, (_, i) => `${i + 1}`);
-    const salesData = Array.from({length: daysInMonth}, () => Math.floor(Math.random() * 10000) + 5000);
-    const ctx = document.getElementById('salesChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Daily Sales (KES)',
-          data: salesData,
-          borderColor: 'rgba(13,110,253,1)',
-          backgroundColor: 'rgba(13,110,253,0.12)',
-          borderWidth: 2,
-          tension: 0.4,
-          fill: true,
-          pointRadius: 2,
-          pointHoverRadius: 5
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                return 'KES ' + context.parsed.y.toLocaleString();
-              }
-            }
-          }
-        },
-        scales: {
-          x: {
-            title: { display: true, text: 'Day of Month' },
-            grid: { display: false },
-            ticks: { color: '#6c757d', font: { size: 13 } }
-          },
-          y: {
-            title: { display: true, text: 'Sales (KES)' },
-            grid: { color: 'rgba(0,0,0,0.04)' },
-            ticks: {
-              color: '#6c757d',
-              callback: function(value) { return 'KES ' + value.toLocaleString(); }
-            }
-          }
-        }
-      }
-    });
-  </script>
 
 </body>
 </html>
