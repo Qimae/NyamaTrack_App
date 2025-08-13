@@ -29,73 +29,8 @@ CREATE TABLE IF NOT EXISTS beef_transactions (
     INDEX (business_name, transaction_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Table structure for table `beef_accounts_entries`
-CREATE TABLE IF NOT EXISTS beef_accounts_entries (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    businessname VARCHAR(100) NOT NULL,
-    date DATE NOT NULL,
-    purchase_price DECIMAL(10, 2) NOT NULL,
-    sell_price DECIMAL(10, 2) NOT NULL,
-    total_cash_sales DECIMAL(10, 2) NOT NULL,
-    daily_expense DECIMAL(10, 2) NOT NULL,
-    total_cash DECIMAL(10, 2) NOT NULL,
-    total_kilos DECIMAL(10, 2) NOT NULL,
-    pr_per_kg DECIMAL(10, 2) NOT NULL,
-    profit DECIMAL(10, 2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (businessname) REFERENCES users(businessname)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- Table structure for table `steak_accounts_entries`
-CREATE TABLE IF NOT EXISTS steak_accounts_entries (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    businessname VARCHAR(100) NOT NULL,
-    date DATE NOT NULL,
-    purchase_price DECIMAL(10, 2) NOT NULL,
-    sell_price DECIMAL(10, 2) NOT NULL,
-    total_cash_sales DECIMAL(10, 2) NOT NULL,
-    daily_expense DECIMAL(10, 2) NOT NULL,
-    total_cash DECIMAL(10, 2) NOT NULL,
-    total_kilos DECIMAL(10, 2) NOT NULL,
-    pr_per_kg DECIMAL(10, 2) NOT NULL,
-    profit DECIMAL(10, 2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (businessname) REFERENCES users(businessname)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- Table structure for table `chicken_accounts_entries`
-CREATE TABLE IF NOT EXISTS chicken_accounts_entries (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    businessname VARCHAR(100) NOT NULL,
-    date DATE NOT NULL,
-    purchase_price DECIMAL(10, 2) NOT NULL,
-    sell_price DECIMAL(10, 2) NOT NULL,
-    total_cash_sales DECIMAL(10, 2) NOT NULL,
-    daily_expense DECIMAL(10, 2) NOT NULL,
-    total_cash DECIMAL(10, 2) NOT NULL,
-    total_kilos DECIMAL(10, 2) NOT NULL,
-    pr_per_kg DECIMAL(10, 2) NOT NULL,
-    profit DECIMAL(10, 2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (businessname) REFERENCES users(businessname)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Table structure for table `goat_accounts_entries`
-CREATE TABLE IF NOT EXISTS goat_accounts_entries (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    businessname VARCHAR(100) NOT NULL,
-    date DATE NOT NULL,
-    purchase_price DECIMAL(10, 2) NOT NULL,
-    sell_price DECIMAL(10, 2) NOT NULL,
-    total_cash_sales DECIMAL(10, 2) NOT NULL,
-    daily_expense DECIMAL(10, 2) NOT NULL,
-    total_cash DECIMAL(10, 2) NOT NULL,
-    total_kilos DECIMAL(10, 2) NOT NULL,
-    pr_per_kg DECIMAL(10, 2) NOT NULL,
-    profit DECIMAL(10, 2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (businessname) REFERENCES users(businessname)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 
 -- View for calculated fields
@@ -122,3 +57,43 @@ SELECT
     END AS profit
 FROM 
     beef_transactions t;
+
+    -- Table for goat transactions (daily summary)
+CREATE TABLE IF NOT EXISTS goat_transactions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    business_name VARCHAR(255) NOT NULL,
+    transaction_date DATE NOT NULL,
+    buy_price VARCHAR(255) NOT NULL,
+    sell_price VARCHAR(255) NOT NULL,
+    total_cash_sales VARCHAR(255) NOT NULL,
+    daily_expense VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_business_date (business_name, transaction_date),
+    INDEX (business_name, transaction_date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- View for calculated fields
+CREATE OR REPLACE VIEW vw_goat_transactions AS
+SELECT 
+    t.*,
+    -- Total Cash = Total Cash Sales + Daily Expense
+    (t.total_cash_sales + t.daily_expense) AS total_cash,
+    
+    -- Total Kilos = Total Cash / Sell Price
+    CASE 
+        WHEN t.sell_price > 0 THEN (t.total_cash_sales + t.daily_expense) / t.sell_price 
+        ELSE 0 
+    END AS total_kilos,
+    
+    -- Profit per KG = Sell Price - Buy Price
+    (t.sell_price - t.buy_price) AS profit_per_kg,
+    
+    -- Profit = (Profit per KG * Total Kilos) - Daily Expense
+    CASE 
+        WHEN t.sell_price > 0 THEN 
+            ((t.sell_price - t.buy_price) * ((t.total_cash_sales + t.daily_expense) / t.sell_price)) - t.daily_expense
+        ELSE 0 
+    END AS profit
+FROM 
+    goat_transactions t;
