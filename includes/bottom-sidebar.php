@@ -75,6 +75,10 @@
       <i class="fas fa-credit-card"></i>
       <span>Beef Transactions</span>
     </a>
+    <a href="goat_transactions.php" class="sidebar-link">
+      <i class="fas fa-credit-card"></i>
+      <span>Goat Transactions</span>
+    </a>
     <a href="reports.php" class="sidebar-link">
       <i class="fas fa-file-invoice-dollar"></i>
       <span>Reports</span>
