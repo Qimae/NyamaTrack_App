@@ -29,6 +29,75 @@ CREATE TABLE IF NOT EXISTS beef_transactions (
     INDEX (business_name, transaction_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Table structure for table `beef_accounts_entries`
+CREATE TABLE IF NOT EXISTS beef_accounts_entries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    businessname VARCHAR(100) NOT NULL,
+    date DATE NOT NULL,
+    purchase_price DECIMAL(10, 2) NOT NULL,
+    sell_price DECIMAL(10, 2) NOT NULL,
+    total_cash_sales DECIMAL(10, 2) NOT NULL,
+    daily_expense DECIMAL(10, 2) NOT NULL,
+    total_cash DECIMAL(10, 2) NOT NULL,
+    total_kilos DECIMAL(10, 2) NOT NULL,
+    pr_per_kg DECIMAL(10, 2) NOT NULL,
+    profit DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (businessname) REFERENCES users(businessname)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Table structure for table `steak_accounts_entries`
+CREATE TABLE IF NOT EXISTS steak_accounts_entries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    businessname VARCHAR(100) NOT NULL,
+    date DATE NOT NULL,
+    purchase_price DECIMAL(10, 2) NOT NULL,
+    sell_price DECIMAL(10, 2) NOT NULL,
+    total_cash_sales DECIMAL(10, 2) NOT NULL,
+    daily_expense DECIMAL(10, 2) NOT NULL,
+    total_cash DECIMAL(10, 2) NOT NULL,
+    total_kilos DECIMAL(10, 2) NOT NULL,
+    pr_per_kg DECIMAL(10, 2) NOT NULL,
+    profit DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (businessname) REFERENCES users(businessname)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Table structure for table `chicken_accounts_entries`
+CREATE TABLE IF NOT EXISTS chicken_accounts_entries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    businessname VARCHAR(100) NOT NULL,
+    date DATE NOT NULL,
+    purchase_price DECIMAL(10, 2) NOT NULL,
+    sell_price DECIMAL(10, 2) NOT NULL,
+    total_cash_sales DECIMAL(10, 2) NOT NULL,
+    daily_expense DECIMAL(10, 2) NOT NULL,
+    total_cash DECIMAL(10, 2) NOT NULL,
+    total_kilos DECIMAL(10, 2) NOT NULL,
+    pr_per_kg DECIMAL(10, 2) NOT NULL,
+    profit DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (businessname) REFERENCES users(businessname)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Table structure for table `goat_accounts_entries`
+CREATE TABLE IF NOT EXISTS goat_accounts_entries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    businessname VARCHAR(100) NOT NULL,
+    date DATE NOT NULL,
+    purchase_price DECIMAL(10, 2) NOT NULL,
+    sell_price DECIMAL(10, 2) NOT NULL,
+    total_cash_sales DECIMAL(10, 2) NOT NULL,
+    daily_expense DECIMAL(10, 2) NOT NULL,
+    total_cash DECIMAL(10, 2) NOT NULL,
+    total_kilos DECIMAL(10, 2) NOT NULL,
+    pr_per_kg DECIMAL(10, 2) NOT NULL,
+    profit DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (businessname) REFERENCES users(businessname)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+
 -- View for calculated fields
 CREATE OR REPLACE VIEW vw_beef_transactions AS
 SELECT 
