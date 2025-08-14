@@ -3,7 +3,7 @@
   --bg: #0a0a0a;
   --bg-2: #0c0c0c;
   --card: #141414;
-  --muted: #a1a1aa;
+  --muted: #ffffff;
   --border: #262626;
   --primary: #e11d48;
   --accent: #f59e0b;
@@ -227,11 +227,11 @@ main {
   width: 100%
 }
 
-.row {
+/* .row {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap
-}
+  flex-wrap: wrap;
+} */
 
 .field {
   display: grid;
@@ -363,7 +363,8 @@ select:focus {
 
 .kpi .value {
   font-weight: 700;
-  font-size: 22px
+  font-size: 22px;
+  color: var(--muted);
 }
 
 .dialog {
@@ -550,6 +551,7 @@ code {
 .table-wrap table {
   width: 100%;
   border-collapse: collapse;
+  color: var(--muted);
 }
 
 .table-wrap thead th {

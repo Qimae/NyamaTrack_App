@@ -6,6 +6,8 @@
   --warning-color: #ffc107;
   --button-color: #1459B8;
   --text-color: #fff;
+  --border: #262626;
+
 }
 
 body {
@@ -65,12 +67,12 @@ button:disabled:focus {
 /* Force custom background for every cell */
 #reports-table.bg-custom thead th,
 #reports-table.bg-custom tbody td {
-    background-color: var(--secondary-color) !important; /* Your color */
+    background-color: inherit !important; /* Your color */
 }
 
 /* Optional: change hover color too */
 #reports-table.bg-custom.table-hover tbody tr:hover td {
-    background-color: var(--secondary-color) !important; /* Hover color */
+    background-color: inherit !important; /* Hover color */
 }
 
 /* Dashboard styles */
@@ -82,7 +84,7 @@ button:disabled:focus {
 }
 
 /* Adjust dashboard width for desktop view */
-@media (min-width: 768px) {
+@media (min-width: 800px) {
   .dashboard {
     width: calc(100% - 250px);
     margin-left: 250px;
@@ -126,7 +128,7 @@ button:disabled:focus {
   color: var(--text-color);
   border: none;
   background-color: var(--primary-color);
-  border-bottom: 2px solid var(--secondary-color);
+  border: 2px solid var(--secondary-color);
   border-radius: 0;
 }
 
@@ -144,17 +146,17 @@ button:disabled:focus {
 .reports #table,
 .reports #table th,
 .reports #table td {
-  background-color: var(--secondary-color);
+  background-color: inherit;
   color: var(--text-color);
 }
 
 /* Optional border removal for a cleaner dark table */
 .reports #table thead th {
-  border-bottom: 2px solid var(--primary-color);
+  border-bottom: 2px solid var(--border);
 }
 
 .reports #table tbody tr {
-  border-bottom: 1px solid var(--primary-color);
+  border-bottom: 1px solid var(--border);
 }
 
 .reports #table tbody tr:last-child {
@@ -162,7 +164,7 @@ button:disabled:focus {
 }
 
 /* Adjust dashboard width for desktop view */
-@media (min-width: 768px) {
+@media (min-width: 800px) {
   .reports {
     width: calc(100% - 250px);
     margin-left: 250px;
@@ -177,11 +179,14 @@ button:disabled:focus {
   width: 100%;
   margin-left: 0;
 }
+.transactions .card-header {
+  border-bottom: 2px solid var(--border);
+}
 .transactions input {
   color: var(--text-color);
   border: none;
   background-color: var(--primary-color);
-  border-bottom: 2px solid var(--secondary-color);
+  border: 2px solid var(--border);
   border-radius: 0;
 }
 /* Placeholder text color */
@@ -209,18 +214,18 @@ button:disabled:focus {
 .transactions #transactionsTable,
 .transactions #transactionsTable th,
 .transactions #transactionsTable td {
-  background-color: var(--secondary-color);
+  background-color: inherit;
   color: var(--text-color);
   padding: .5rem .5rem;
 }
 
 /* Optional border removal for a cleaner dark transactionsTable */
 .transactions #transactionsTable thead th {
-  border-bottom: 2px solid var(--primary-color);
+  border-bottom: 2px solid var(--border);
 }
 
 .transactions #transactionsTable tbody tr {
-  border-bottom: 1px solid var(--primary-color);
+  border-bottom: 1px solid var(--border);
 }
 
 .transactions #transactionsTable tbody tr:last-child {
@@ -228,7 +233,7 @@ button:disabled:focus {
 }
 
 /* Adjust dashboard width for desktop view */
-@media (min-width: 768px) {
+@media (min-width: 800px) {
   .transactions {
     width: calc(100% - 250px);
     margin-left: 250px;

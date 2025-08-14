@@ -3,12 +3,13 @@ session_start();
 
 // Check if user is not logged in
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit();
+  header('Location: login.php');
+  exit();
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,9 +18,15 @@ if (!isset($_SESSION['user_id'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-
+  <link rel="stylesheet" href="utils/becken.css">
 </head>
+
 <body>
+  <div class="bg" aria-hidden="true">
+    <div class="orb red"></div>
+    <div class="orb amber"></div>
+    <div class="grid-overlay"></div>
+  </div>
   <!-- Loading Overlay -->
   <div id="loading" class="position-fixed w-100 h-100 bg-dark bg-opacity-75 d-flex justify-content-center align-items-center" style="z-index: 9999; top: 0; left: 0; display: none;">
     <div class="text-center text-white">
@@ -48,7 +55,7 @@ if (!isset($_SESSION['user_id'])) {
               <input type="date" class="form-control" id="endDate" value="<?php echo date('Y-m-t'); ?>">
             </div>
             <div class="col-md-4">
-              <button type="button">
+              <button type="button" class="btn btn-primary">
                 <i class="fas fa-filter me-2"></i>Apply Filter
               </button>
             </div>
@@ -65,7 +72,7 @@ if (!isset($_SESSION['user_id'])) {
               </div>
             </div>
           </div>
-          
+
           <!-- Summary Table -->
           <div class="card mt-4" id="card">
             <div class="card-body">
@@ -99,7 +106,7 @@ if (!isset($_SESSION['user_id'])) {
             </div>
           </div>
           <!-- End Summary Table -->
-          
+
         </div>
       </div>
     </div>
@@ -107,4 +114,5 @@ if (!isset($_SESSION['user_id'])) {
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>
+
 </html>

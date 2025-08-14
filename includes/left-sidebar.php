@@ -5,7 +5,7 @@
   }
 
   /* Show left sidebar on desktop */
-  @media (min-width: 768px) {
+  @media (min-width: 800px) {
     .left-sidebar {
       display: block;
       position: fixed;
@@ -13,10 +13,11 @@
       left: 0;
       height: 100vh;
       width: 250px;
-      background-color: #292E38;
+      background-color: #161616;
       padding: 1rem;
       z-index: 1000;
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      border-right: 1px solid #374151;
     }
 
     .sidebar-content {
@@ -28,7 +29,7 @@
     }
 
     .sidebar-link {
-      color: #fff;
+      color: var(--muted);
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -39,7 +40,7 @@
     }
 
     .sidebar-link:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: var(--primary);
       transform: translateX(5px);
     }
 

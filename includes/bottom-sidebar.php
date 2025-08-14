@@ -12,10 +12,11 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      background-color: #292E38;
+      background-color: #161616;
       padding: 1rem;
       z-index: 1000;
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      border-top: 1px solid #374151;
     }
     
     .sidebar-content {
@@ -48,7 +49,7 @@
     }
     
     .sidebar-link:hover {
-      background-color: #292E38;
+      background-color:var(--primary);
       transform: translateY(-2px);
     }
     
@@ -73,11 +74,11 @@
     </a>
     <a href="beef_transactions.php" class="sidebar-link">
       <i class="fas fa-credit-card"></i>
-      <span>Beef Transactions</span>
+      <span>Beef</span>
     </a>
     <a href="goat_transactions.php" class="sidebar-link">
       <i class="fas fa-credit-card"></i>
-      <span>Goat Transactions</span>
+      <span>Goat</span>
     </a>
     <a href="reports.php" class="sidebar-link">
       <i class="fas fa-file-invoice-dollar"></i>
