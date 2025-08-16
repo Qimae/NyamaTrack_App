@@ -2,137 +2,146 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NyamaTrack Login | Butchery Accounting</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    rel="stylesheet"
-    as="style"
-    onload="this.rel='stylesheet'"
-    href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Serif:wght@400;500;700;900&family=Noto+Sans:wght@400;500;700;900" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nyamatrack - Login | Premium Butchery Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="utils/registration.css">
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#007bff" />
 </head>
 
-<body class="bg-[#171212] text-white" style='font-family: "Noto Serif", "Noto Sans", sans-serif;'>
-  <div class="relative flex min-h-screen flex-col justify-between overflow-x-hidden">
-    <!-- Top Image -->
-    <div class="@container">
-      <div class="@[480px]:px-4 @[480px]:py-3">
-        <div
-          class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden bg-[#171212] @[480px]:rounded-xl min-h-80"
-          style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCbj00R9cVZIR98oAGFJeB-53b772Lor1TZYfNf_qdqCGN6OM9gqg2rlkFIQUSU7SJsUltBP6HTT7t6m2ITq3qsgDxTVodJxk3au5CpUt1tmT46IppYDAcvs7YEITludIudOci0FT2GfiJJZyAhxqrnbg1Dhuj13sjsFL4LjnBvUzHn2Xcd0MUoFQUzeCKMGD8De7lRjREL18Gu7egPzoqU_Kex47UHKg0XcolegTzYl1L79_pM8jC0zFETc_b0AsbbmEmnZPigKA8");'></div>
-      </div>
+<body class="gradient-bg min-h-screen flex items-center justify-center relative overflow-hidden py-8">
+    <!-- Floating Background Elements -->
+    <div class="meat-pattern"></div>
+    <!-- Floating Butchery Icons -->
+    <div class="floating-icon text-gray-500 text-4xl">
+        <i class="fas fa-store"></i>
     </div>
+    <div class="floating-icon text-gray-400 text-3xl">
+        <i class="fas fa-scale-balanced"></i>
+    </div>
+    <div class="floating-icon text-gray-600 text-5xl">
+        <i class="fas fa-receipt"></i>
+    </div>
+    <div class="floating-icon text-gray-500 text-3xl">
+        <i class="fas fa-chart-line"></i>
+    </div>
+    <div class="floating-icon text-gray-400 text-4xl">
+        <i class="fas fa-users"></i>
+    </div>
+    <div class="floating-icon text-gray-600 text-3xl">
+        <i class="fas fa-money-bill-wave"></i>
+    </div>
+    <!-- Main Login Container -->
+    <div class="login-container w-full max-w-md mx-auto p-4 relative z-10">
+        <!-- Logo and Brand -->
+        <div class="text-center mb-8">
+            <div class="relative inline-block">
+                <div
+                    class="pulse-ring absolute inset-0 rounded-full bg-gradient-to-r from-gray-600 to-gray-500 opacity-20">
+                </div>
+                <div
+                    class="relative bg-gradient-to-r from-gray-600 to-gray-500 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-cut text-white text-2xl"></i>
+                </div>
+            </div>
+            <h1 class="brand-text text-4xl font-bold mb-2">Nyamatrack</h1>
+            <p class="text-gray-400 text-sm">Premium Butchery Management System</p>
+        </div>
 
-    <!-- Form Heading -->
-    <h2 class="text-white text-center text-[28px] font-bold leading-tight px-4 pb-3 pt-5">
-      Welcome Back
-    </h2>
+        <!-- Login Form -->
+        <div class="glass-card rounded-2xl p-8 shadow-2xl">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-white mb-2">Welcome</h2>
+                <p class="text-gray-400 text-sm">Sign in to your account</p>
+            </div>
 
-    <!-- Login Form -->
-    <form
-      id="loginForm"
-      autocomplete="off"
-      class="max-w-[480px] w-full mx-auto px-4 space-y-4">
-      <!-- Business Name Field -->
-      <label class="flex flex-col" for="business_name">
-        <input
-          id="business_name"
-          name="business_name"
-          type="text"
-          required
-          aria-label="Business Name"
-          placeholder="Business Name"
-          autocomplete="off"
-          class="form-input w-full rounded-xl bg-[#362b2b] text-white h-14 p-4 placeholder:text-[#b4a2a2] text-base" />
-      </label>
+            <form id="loginForm" class="space-y-6">
+                <!-- Email Input -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">
+                        <i class="fas fa-envelope mr-2 text-gray-400"></i>Email Address:
+                    </label>
+                    <input type="email" id="email" name="email"
+                        class="input-glow w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all duration-300"
+                        placeholder="Enter your email" required>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pt-7">
+                        <i class="fas fa-envelope text-white"></i>
+                    </div>
+                </div>
+                <!-- Business Name Input -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">
+                        <i class="fas fa-briefcase mr-2 text-gray-400"></i>Business Name:
+                    </label>
+                    <input type="text" id="business_name" name="business_name"
+                        class="input-glow w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all duration-300"
+                        placeholder="Enter your business name" required>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pt-7">
+                        <i class="fas fa-briefcase text-white"></i>
+                    </div>
+                </div>
 
-      <!-- Email Field -->
-      <label class="flex flex-col" for="email">
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          aria-label="Email address"
-          placeholder="Email"
-          autocomplete="off"
-          class="form-input w-full rounded-xl bg-[#362b2b] text-white h-14 p-4 placeholder:text-[#b4a2a2] text-base" />
-      </label>
+                <!-- Password Input -->
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-300 mb-1">
+                        <i class="fas fa-lock mr-2 text-gray-400"></i>Password:
+                    </label>
+                    <input type="password" id="password" name="password"
+                        class="input-glow w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all duration-300"
+                        placeholder="Enter your password" autocomplete="off" required>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pt-7">
+                        <button type="button" onclick="togglePassword('password')" class="text-gray-400 hover:text-white">
+                            <i class="fas fa-eye" id="toggleIcon"></i>
+                        </button>
+                    </div>
+                </div>
 
-      <!-- Password Field -->
-      <label class="flex flex-col" for="password">
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          minlength="8"
-          aria-label="Password"
-          placeholder="Password"
-          autocomplete="off"
-          class="form-input w-full rounded-xl bg-[#362b2b] text-white h-14 p-4 placeholder:text-[#b4a2a2] text-base" />
-      </label>
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox"
+                            class="w-4 h-4 text-gray-500 bg-gray-800 border-gray-600 rounded focus:ring-gray-500">
+                        <span class="ml-2 text-sm text-gray-400">Remember me</span>
+                    </label>
+                    <a href="#" class="text-sm text-gray-400 hover:text-gray-300 transition-colors">
+                        Forgot password?
+                    </a>
+                </div>
 
-      <!-- Forgot Password -->
-      <p class="text-[#b4a2a2] text-sm text-center underline cursor-pointer hover:text-white transition">
-        Forgot Password?
-      </p>
+                <!-- Login Button -->
+                <button type="submit"
+                    class="glow-button w-full py-2 px-4 bg-gray-700 border border-gray-600 rounded-lg text-white font-semibold text-lg transition-all duration-300 hover:scale-105">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Sign In
+                </button>
+                <!-- Register Link -->
+                <div class="text-center mt-4">
+                    <p class="text-gray-400 text-sm">
+                        Don't have an account?
+                        <a href="registration.php" class="text-gray-300 hover:text-white font-semibold transition-colors">
+                            Create Account
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </div>
 
-      <!-- Login Button -->
-      <button
-        type="submit"
-        class="w-full h-12 rounded-full bg-[#e8b4b4] text-[#171212] text-base font-bold tracking-[0.015em] transition hover:bg-[#f5c6c6]">
-        Login
-      </button>
+        <!-- Footer -->
+        <div class="text-center mt-6">
+            <p class="text-gray-400 text-xs">
+                © 2025 Nyamatrack. Secure butchery management for Kenya.
+            </p>
+            <div class="flex justify-center space-x-4 mt-2">
+                <a href="#" class="text-gray-400 hover:text-gray-300 text-xs">Privacy</a>
+                <a href="#" class="text-gray-400 hover:text-gray-300 text-xs">Terms</a>
+                <a href="#" class="text-gray-400 hover:text-gray-300 text-xs">Support</a>
+            </div>
+        </div>
+    </div>
+    <script src="js/login_script.js"></script>
+</body>
 
-      <!-- Sign Up -->
-      <p class="text-[#b4a2a2] text-sm text-center underline">
-        Don't have an account? <a href="registration.php" class="hover:text-white transition">Sign Up</a>
-      </p>
-    </form>
-
-    <!-- Ajax Script -->
-
-    <script>
-      document.getElementById("loginForm").addEventListener("submit", function(e) {
-        e.preventDefault();
-        const business_name = document.getElementById("business_name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
-        if (!business_name || !email || !password) {
-          alert("Business name, email and password are required.");
-          return;
-        }
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-          alert("Please enter a valid email address.");
-          return;
-        }
-        fetch('api/login_handler.php', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams({
-              business_name,
-              email,
-              password
-            })
-          })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              alert(data.message);
-              window.location.href = "dashboard.php";
-            } else {
-              alert(data.error || "Login failed.");
-            }
-          })
-          .catch(() => {
-            alert("Login failed. Please try again later.");
-          });
-      });
-    </script>
+</html>

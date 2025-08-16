@@ -131,10 +131,6 @@ if (!isset($_SESSION['user_id'])) {
       </section>
     </div>
   </main>
-
-  <footer>
-    © <span id="year"></span> NyamaTrack — Nyamatrack.co.ke
-  </footer>
   <script src="js/algorithm_script.js"></script>
 </body>
 

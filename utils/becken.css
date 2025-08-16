@@ -205,7 +205,7 @@ main {
   padding: 10px 14px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: linear-gradient(180deg, #1b1b1b, #121212);
+  background: linear-gradient(180deg, var(--primary), var(--primary));
   color: white;
   cursor: pointer
 }
@@ -410,7 +410,7 @@ table {
 thead th {
   font-size: 13px;
   color: var(--muted);
-  text-align: left;
+  text-align: right;
   border-bottom: 1px solid var(--border);
   padding: 10px
 }
@@ -565,6 +565,41 @@ code {
 .table-wrap th,
 .table-wrap td {
   padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.table-wrap thead th {
+  text-align: left;
+}
+
+.table-wrap td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+/* Table header alignment */
+.table-wrap thead th {
+  text-align: left;
+}
+
+/* Table footer alignment - right align all cells except the first one */
+.table-wrap tfoot th {
+  text-align: right;
+}
+
+/* First cell in footer (Totals:) should be left-aligned */
+.table-wrap tfoot th:first-child {
+  text-align: left;
+}
+
+/* Right align all data cells */
+.table-wrap tbody td {
+  text-align: right;
+}
+
+/* First column (Date) and last column (Actions) in tbody should be left-aligned */
+.table-wrap tbody td:first-child,
+.table-wrap tbody td:last-child {
   text-align: left;
 }
 

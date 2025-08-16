@@ -84,9 +84,13 @@
       <i class="fas fa-file-invoice-dollar"></i>
       <span>Reports</span>
     </a>
-    <a href="payments.php" class="sidebar-link">
+    <a href="algorithm_report.php" class="sidebar-link">
+      <i class="fas fa-file-invoice-dollar"></i>
+      <span>Algo Reports</span>
+    </a>
+    <a href="subscription.php" class="sidebar-link">
       <i class="fas fa-money-bill"></i>
-      <span>Payments</span>
+      <span>Subscription</span>
     </a>
     <a href="profile.php" class="sidebar-link">
       <i class="fas fa-user"></i>
