@@ -14,6 +14,7 @@
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="utils/becken.css">
 </head>
 
 <body>
@@ -26,7 +27,11 @@
   include 'includes/left-sidebar.php';
   include 'includes/bottom-sidebar.php';
   ?>
-
+<div class="bg" aria-hidden="true">
+    <div class="orb red"></div>
+    <div class="orb amber"></div>
+    <div class="grid-overlay"></div>
+  </div>
   <main class="py-4 transactions">
     <div class="container-fluid">
       <div class="row mb-4">
@@ -49,19 +54,19 @@
                 </div>
                 <div class="col-md-2">
                   <label for="buy_price" class="form-label">Buy Price (Ksh/kg) <span class="text-danger">*</span></label>
-                  <input type="number" step="0.01" min="0" class="form-control" id="buy_price" required>
+                  <input type="number" step="0.01" min="0" class="form-control" id="buy_price" placeholder="Enter buy price" required>
                 </div>
                 <div class="col-md-2">
                   <label for="sell_price" class="form-label">Sell Price (Ksh/kg) <span class="text-danger">*</span></label>
-                  <input type="number" step="0.01" min="0" class="form-control" id="sell_price" required>
+                  <input type="number" step="0.01" min="0" class="form-control" id="sell_price" placeholder="Enter sell price" required>
                 </div>
                 <div class="col-md-2">
                   <label for="total_cash_sales" class="form-label">Cash Sales (Ksh) <span class="text-danger">*</span></label>
-                  <input type="number" step="0.01" min="0" class="form-control" id="total_cash_sales" required>
+                  <input type="number" step="0.01" min="0" class="form-control" id="total_cash_sales" placeholder="Enter cash sales" required>
                 </div>
                 <div class="col-md-2">
                   <label for="daily_expense" class="form-label">Daily Expense (Ksh) <span class="text-danger">*</span></label>
-                  <input type="number" step="0.01" min="0" class="form-control" id="daily_expense" required>
+                  <input type="number" step="0.01" min="0" class="form-control" id="daily_expense" placeholder="Enter daily expense" required>
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
                   <button type="submit" class="btn btn-success w-100">
@@ -93,8 +98,7 @@
                   <button type="button" id="applyFilter" class="btn btn-primary w-100">
                     <i class="fas fa-filter me-1"></i>Apply Filter
                   </button>
-                </div>
-                
+                </div>                
               </div>
             </div>
             <div class="card-body">
@@ -117,9 +121,9 @@
                   </div>
                 </div>
               </div>
-              <div class="table-responsive">
-                <table id="transactionsTable" class="table table-hover nowrap table-bordered" style="width:100%; color: var(--text-color); background-color: var(--secondary-color);">
-                  <thead style="background-color: var(--secondary-color);">
+              <div class="table-wrap">
+                <table id="transactionsTable" class="table table-hover" style="width:100%; color: var(--text-color); background-color: inherit;">
+                  <thead style="background-color: inherit;">
                     <tr>
                       <th>Date</th>
                       <th>Buy Price (Ksh/kg)</th>

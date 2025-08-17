@@ -3,7 +3,7 @@
   --bg: #0a0a0a;
   --bg-2: #0c0c0c;
   --card: #141414;
-  --muted: #a1a1aa;
+  --muted: #ffffff;
   --border: #262626;
   --primary: #e11d48;
   --accent: #f59e0b;
@@ -205,7 +205,7 @@ main {
   padding: 10px 14px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: linear-gradient(180deg, #1b1b1b, #121212);
+  background: linear-gradient(180deg, var(--primary), var(--primary));
   color: white;
   cursor: pointer
 }
@@ -227,11 +227,11 @@ main {
   width: 100%
 }
 
-.row {
+/* .row {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap
-}
+  flex-wrap: wrap;
+} */
 
 .field {
   display: grid;
@@ -277,11 +277,13 @@ select:focus {
 .plan {
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 18px;
+  padding: 15px;
   background: linear-gradient(180deg, #151515, #111111);
   position: relative;
   display: grid;
-  gap: 8px
+  gap: 8px;
+      color: var(--muted);
+
 }
 
 .plan input[type="radio"] {
@@ -291,13 +293,41 @@ select:focus {
   cursor: pointer
 }
 
+.plan.selected {
+  border: 2px solid #4caf50;
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
 .plan:hover {
   outline: 1px solid color-mix(in oklab, var(--primary), transparent 60%)
+}
+
+.plan h4 {
+  margin: 0 0 5px 0;
 }
 
 .plan .price {
   font-size: 28px;
   font-weight: 700;
+}
+
+.plan ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.plan button {
+  width: 100%;
+}
+
+.savings-badge {
+  background: #4caf50;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  display: inline-block;
+  margin: 5px 0;
 }
 
 .grid {
@@ -363,7 +393,8 @@ select:focus {
 
 .kpi .value {
   font-weight: 700;
-  font-size: 22px
+  font-size: 22px;
+  color: var(--muted);
 }
 
 .dialog {
@@ -409,7 +440,7 @@ table {
 thead th {
   font-size: 13px;
   color: var(--muted);
-  text-align: left;
+  text-align: right;
   border-bottom: 1px solid var(--border);
   padding: 10px
 }
@@ -516,9 +547,17 @@ code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
 }
 
-.positive { color: #10b981; }
-.negative { color: #ef4444; }
-.projection { opacity: 0.7; }
+.positive {
+  color: #10b981;
+}
+
+.negative {
+  color: #ef4444;
+}
+
+.projection {
+  opacity: 0.7;
+}
 
 /* Make table container responsive with fixed height and scrolling */
 .table-wrap {
@@ -550,6 +589,7 @@ code {
 .table-wrap table {
   width: 100%;
   border-collapse: collapse;
+  color: var(--muted);
 }
 
 .table-wrap thead th {
@@ -566,12 +606,47 @@ code {
   text-align: left;
 }
 
+.table-wrap thead th {
+  text-align: left;
+}
+
+.table-wrap td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+/* Table header alignment */
+.table-wrap thead th {
+  text-align: left;
+}
+
+/* Table footer alignment - right align all cells except the first one */
+.table-wrap tfoot th {
+  text-align: right;
+}
+
+/* First cell in footer (Totals:) should be left-aligned */
+.table-wrap tfoot th:first-child {
+  text-align: left;
+}
+
+/* Right align all data cells */
+.table-wrap tbody td {
+  text-align: right;
+}
+
+/* First column (Date) and last column (Actions) in tbody should be left-aligned */
+.table-wrap tbody td:first-child,
+.table-wrap tbody td:last-child {
+  text-align: left;
+}
+
 /* Make table responsive on small screens */
 @media (max-width: 768px) {
   .table-wrap {
     font-size: 0.875rem;
   }
-  
+
   .table-wrap th,
   .table-wrap td {
     padding: 0.5rem 0.75rem;
