@@ -5,26 +5,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function fetchTransactions(startDate, endDate) {
   try {
-    const response = await fetch(`./api/beef_transactions_handler.php?start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`, {
-      method: 'GET',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+    const [beefResponse, goatResponse] = await Promise.all([
+      fetch(`./api/beef_transactions_handler.php?start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`, {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      fetch(`./api/goat_transactions_handler.php?start_date=${formatDate(startDate)}&end_date=${formatDate(endDate)}`, {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' }
+      })
+    ]);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    if (!beefResponse.ok || !goatResponse.ok) {
+      throw new Error(`HTTP error! status: ${beefResponse.status} / ${goatResponse.status}`);
     }
 
-    const data = await response.json();
-    return data.success ? data.data : [];
+    const beefData = await beefResponse.json();
+    const goatData = await goatResponse.json();
+    
+    // Combine both datasets
+    const combinedData = [
+      ...(beefData.success ? beefData.data : []),
+      ...(goatData.success ? goatData.data : [])
+    ];
+    
+    return combinedData;
   } catch (error) {
     console.error('Error fetching transactions:', error);
     return [];
   }
 }
-
 
 
 function updateKPIs(currentMonthData, prevMonthData, currentDate) {
