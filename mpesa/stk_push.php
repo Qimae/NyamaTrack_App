@@ -13,8 +13,8 @@ date_default_timezone_set('Africa/Nairobi');
 // M-Pesa API endpoints
 $processrequestUrl = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 $callbackurl = 'https://abenaenterprises.com/daraja/callback.php';
-$passkey = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
-$BusinessShortCode = '174379';
+$passkey = ""; // enter passkey
+$BusinessShortCode = ''; // enter business short code
 $Timestamp = date('YmdHis');
 $Password = base64_encode($BusinessShortCode . $passkey . $Timestamp);
 
