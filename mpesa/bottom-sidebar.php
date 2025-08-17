@@ -68,35 +68,35 @@
 
 <nav class="bottom-sidebar">
   <div class="sidebar-content">
-    <a href="dashboard.php" class="sidebar-link">
+    <a href="../dashboard.php" class="sidebar-link">
       <i class="fas fa-home"></i>
       <span>Dashboard</span>
     </a>
-    <a href="beef_transactions.php" class="sidebar-link">
+    <a href="../beef_transactions.php" class="sidebar-link">
       <i class="fas fa-credit-card"></i>
       <span>Beef</span>
     </a>
-    <a href="goat_transactions.php" class="sidebar-link">
+    <a href="../goat_transactions.php" class="sidebar-link">
       <i class="fas fa-credit-card"></i>
       <span>Goat</span>
     </a>
-    <a href="reports.php" class="sidebar-link">
+    <a href="../reports.php" class="sidebar-link">
       <i class="fas fa-file-invoice-dollar"></i>
       <span>Reports</span>
     </a>
-    <a href="algorithm_report.php" class="sidebar-link">
+    <a href="../algorithm_report.php" class="sidebar-link">
       <i class="fas fa-file-invoice-dollar"></i>
       <span>Algo Reports</span>
     </a>
-    <a href="mpesa/subscription.php" class="sidebar-link">
+    <a href="subscription.php" class="sidebar-link">
       <i class="fas fa-money-bill"></i>
       <span>Subscription</span>
     </a>
-    <a href="profile.php" class="sidebar-link">
+    <a href="../profile.php" class="sidebar-link">
       <i class="fas fa-user"></i>
       <span>Profile</span>
     </a>
-    <a href="logout.php" class="sidebar-link">
+    <a href="../logout.php" class="sidebar-link">
       <i class="fas fa-sign-out-alt"></i>
       <span>Logout</span>
     </a>

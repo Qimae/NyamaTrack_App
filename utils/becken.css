@@ -277,11 +277,13 @@ select:focus {
 .plan {
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 18px;
+  padding: 15px;
   background: linear-gradient(180deg, #151515, #111111);
   position: relative;
   display: grid;
-  gap: 8px
+  gap: 8px;
+      color: var(--muted);
+
 }
 
 .plan input[type="radio"] {
@@ -291,13 +293,41 @@ select:focus {
   cursor: pointer
 }
 
+.plan.selected {
+  border: 2px solid #4caf50;
+  background-color: rgba(76, 175, 80, 0.05);
+}
+
 .plan:hover {
   outline: 1px solid color-mix(in oklab, var(--primary), transparent 60%)
+}
+
+.plan h4 {
+  margin: 0 0 5px 0;
 }
 
 .plan .price {
   font-size: 28px;
   font-weight: 700;
+}
+
+.plan ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.plan button {
+  width: 100%;
+}
+
+.savings-badge {
+  background: #4caf50;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  display: inline-block;
+  margin: 5px 0;
 }
 
 .grid {
@@ -517,9 +547,17 @@ code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
 }
 
-.positive { color: #10b981; }
-.negative { color: #ef4444; }
-.projection { opacity: 0.7; }
+.positive {
+  color: #10b981;
+}
+
+.negative {
+  color: #ef4444;
+}
+
+.projection {
+  opacity: 0.7;
+}
 
 /* Make table container responsive with fixed height and scrolling */
 .table-wrap {
@@ -608,7 +646,7 @@ code {
   .table-wrap {
     font-size: 0.875rem;
   }
-  
+
   .table-wrap th,
   .table-wrap td {
     padding: 0.5rem 0.75rem;

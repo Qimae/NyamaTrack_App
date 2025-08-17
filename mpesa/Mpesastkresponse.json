@@ -1,0 +1,34 @@
+{
+  "Body": {
+    "stkCallback": {
+      "MerchantRequestID": "a71d-4f69-bf89-6e6da87fe1e327816",
+      "CheckoutRequestID": "ws_CO_070820251052276759719777",
+      "ResultCode": 0,
+      "ResultDesc": "The service request is processed successfully",
+      "CallbackMetadata": {
+        "Item": [
+          {
+            "Name": "Amount",
+            "Value": 1
+          },
+          {
+            "Name": "MpesaReceiptNumber",
+            "Value": "TH79AATQBD"
+          },
+          {
+            "Name": "Balance",
+            "Value": "{Amount={CurrencyCode=KES, MinimumAmount=10724200, BasicAmount=107242.00}}"
+          },
+          {
+            "Name": "TransactionDate",
+            "Value": 20250807105233
+          },
+          {
+            "Name": "PhoneNumber",
+            "Value": 254759719777
+          }
+        ]
+      }
+    }
+  }
+}

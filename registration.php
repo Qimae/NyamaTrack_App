@@ -86,7 +86,7 @@
                         </label>
                         <input type="text" id="fullname" name="fullname"
                             class="input-glow w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all duration-300"
-                            placeholder="John" required>
+                            placeholder="John Doe" required>
                     </div>
 
                     <!-- Email -->
@@ -96,7 +96,7 @@
                         </label>
                         <input type="email" id="email" name="email"
                             class="input-glow w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all duration-300"
-                            placeholder="john@example.com" required>
+                            placeholder="johndoe@example.com" required>
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pt-6">
                             <i class="fas fa-check text-green-500 hidden" id="emailCheck"></i>
                         </div>
