@@ -33,6 +33,31 @@
   animation: float 20s ease-in-out infinite;
 }
 
+.loading-spinner {
+  display: none;
+}
+.loading .button-text {
+  display: none;
+}
+.loading .loading-spinner {
+  display: inline-block;
+}
+#verificationModal {
+  transition: opacity 0.3s ease-in-out;
+}
+.modal-enter {
+  opacity: 0;
+}
+.modal-enter-active {
+  opacity: 1;
+}
+.modal-exit {
+  opacity: 1;
+}
+.modal-exit-active {
+  opacity: 0;
+}
+
 .floating-icon {
   position: absolute;
   animation: floatUpDown 6s ease-in-out infinite;

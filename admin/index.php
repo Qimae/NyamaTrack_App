@@ -133,32 +133,6 @@
             </div>
         </div>
     </div>
-    <style>
-        .loading-spinner {
-            display: none;
-        }
-        .loading .button-text {
-            display: none;
-        }
-        .loading .loading-spinner {
-            display: inline-block;
-        }
-        #verificationModal {
-            transition: opacity 0.3s ease-in-out;
-        }
-        .modal-enter {
-            opacity: 0;
-        }
-        .modal-enter-active {
-            opacity: 1;
-        }
-        .modal-exit {
-            opacity: 1;
-        }
-        .modal-exit-active {
-            opacity: 0;
-        }
-    </style>
     <script src="js/login_script.js"></script>
 
     <!-- Account Code Verification Modal -->
