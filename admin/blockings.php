@@ -31,7 +31,7 @@
     <?php include 'includes/left-sidebar.php'; ?>
     <?php include 'includes/bottom-sidebar.php'; ?>
     <div class="main-content">
-        <div class="p-6">
+        <div class="p-4 sm:p-6">
             <!-- Page Header -->
             <div class="relative mb-6 sm:mb-8 p-4 sm:p-6 bg-gradient-to-r from-gray-900 to-black rounded-xl border border-gray-800">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -45,7 +45,7 @@
                         <p class="text-sm sm:text-base text-gray-400">Manage all blocked butcheries.</p>
                     </div>
                 </div>
-            </div>  
+            </div>
             <!-- Blocked Companies Section -->
             <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 mb-8 shadow-xl">
                 <h2 class="text-xl font-semibold text-white mb-6">Blocked Companies</h2>

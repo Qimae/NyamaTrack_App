@@ -16,177 +16,23 @@
                         }
                     }
                 }
-            }
+            },
+            corePlugins: {
+                preflight: false,
+            },
         }
     </script>
-    <style>
-        body {
-            background-color: #000000;
-            color: white;
-        }
-        
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #000000;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #374151;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #4b5563;
-        }
-        
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            height: 100vh;
-            width: 280px;
-            background: #000000;
-            border-right: 1px solid #374151;
-            z-index: 50;
-        }
-        
-        .main-content {
-            margin-left: 280px;
-            min-height: 100vh;
-            background: #000000;
-        }
-        
-        .nav-item {
-            transition: all 0.2s;
-        }
-        
-        .nav-item:hover {
-            background: #1f2937;
-            color: white;
-        }
-        
-        .nav-item.active {
-            background: rgba(220, 38, 38, 0.2);
-            color: #f87171;
-            border-left: 4px solid #dc2626;
-        }
-        
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.375rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border: 1px solid;
-        }
-        
-        .status-paid {
-            background: rgba(34, 197, 94, 0.2);
-            color: #4ade80;
-            border-color: rgba(34, 197, 94, 0.3);
-        }
-        
-        .status-pending {
-            background: rgba(234, 179, 8, 0.2);
-            color: #facc15;
-            border-color: rgba(234, 179, 8, 0.3);
-        }
-        
-        .status-failed {
-            background: rgba(239, 68, 68, 0.2);
-            color: #f87171;
-            border-color: rgba(239, 68, 68, 0.3);
-        }
-        
-        .status-processing {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            border-color: rgba(59, 130, 246, 0.3);
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="utils/emmanuel.css">
+   
 </head>
 <body class="bg-black text-white">
-     Sidebar 
-    <div class="sidebar">
-         Header 
-        <div class="border-b border-gray-800 p-4 bg-gray-950">
-            <div class="flex items-center gap-3">
-                <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-red-600 to-orange-600 shadow-lg">
-                    <svg class="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>
-                    </svg>
-                </div>
-                <div>
-                    <h2 class="text-xl font-bold text-white">NyamaTrack</h2>
-                    <p class="text-xs text-orange-400 font-medium">Admin Dashboard</p>
-                </div>
-            </div>
-        </div>
-        
-         Navigation 
-        <div class="bg-black p-4">
-            <div class="text-orange-400 text-xs uppercase tracking-wider font-semibold px-4 py-2 mb-4">
-                🔪 Management Tools
-            </div>
-            <nav class="space-y-2">
-                <a href="index.html" class="nav-item flex items-center gap-3 p-3 rounded-lg text-gray-300">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"></path>
-                    </svg>
-                    <div>
-                        <div class="font-medium">Dashboard</div>
-                        <div class="text-xs text-gray-500">Overview & stats</div>
-                    </div>
-                </a>
-                
-                <a href="payments.html" class="nav-item active flex items-center gap-3 p-3 rounded-lg text-gray-300">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-                    </svg>
-                    <div>
-                        <div class="font-medium">Payment Processing</div>
-                        <div class="text-xs text-gray-500">Manage payments & confirmations</div>
-                    </div>
-                </a>
-                
-                <a href="butcheries.html" class="nav-item flex items-center gap-3 p-3 rounded-lg text-gray-300">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                    </svg>
-                    <div>
-                        <div class="font-medium">Butcheries</div>
-                        <div class="text-xs text-gray-500">Manage registered butcheries</div>
-                    </div>
-                </a>
-            </nav>
-        </div>
-        
-         Footer 
-        <div class="absolute bottom-0 left-0 right-0 border-t border-gray-800 p-4 bg-gray-950">
-            <div class="flex items-center gap-3">
-                <div class="h-8 w-8 rounded-full bg-red-600 flex items-center justify-center text-white font-bold">
-                    AD
-                </div>
-                <div>
-                    <div class="text-sm font-medium text-white">Admin User</div>
-                    <div class="text-xs text-orange-400">admin@nyamatrack.co.ke</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-     Main Content 
+    <?php include 'includes/left-sidebar.php'; ?>
+    <?php include 'includes/bottom-sidebar.php'; ?>
     <div class="main-content">
-        <div class="p-6">
-             Header 
-            <div class="relative mb-8 p-6 bg-gradient-to-r from-gray-900 to-black rounded-xl border border-gray-800">
+        <div class="p-4 sm:p-6">
+            <!-- Page Header -->
+            <div class="relative mb-6 sm:mb-8 p-4 sm:p-6 bg-gradient-to-r from-gray-900 to-black rounded-xl border border-gray-800">
                 <div class="absolute top-4 right-4 opacity-10">
                     <svg width="120" height="120" viewBox="0 0 120 120" class="text-red-500">
                         <path d="M20 100 L40 20 L45 20 L25 100 Z" fill="currentColor"/>
@@ -194,22 +40,21 @@
                         <circle cx="42.5" cy="20" r="2" fill="white"/>
                     </svg>
                 </div>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="p-3 rounded-lg bg-gradient-to-br from-red-600 to-orange-600">
-                        <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <div class="p-2 sm:p-3 rounded-lg bg-gradient-to-br from-red-600 to-orange-600">
+                        <svg class="h-6 w-6 sm:h-8 sm:w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
                         </svg>
                     </div>
-                    <div>
-                        <h1 class="text-4xl font-bold text-white">Payment Processing</h1>
-                        <p class="text-gray-300 text-lg">🥩 Manage payments, confirmations and processing status</p>
+                    <div class="flex-1">
+                        <h1 class="text-2xl sm:text-3xl font-bold text-white">Payment Processing</h1>
+                        <p class="text-sm sm:text-base text-gray-400">🥩 Manage payments, confirmations and processing status</p>
                     </div>
                 </div>
             </div>
-
-             Stats Cards 
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-xl">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 sm:p-6 shadow-xl card-hover">
                     <div class="flex items-center justify-between mb-2">
                         <h3 class="text-sm font-medium text-gray-400">Total Revenue</h3>
                         <svg class="h-4 w-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -220,7 +65,7 @@
                     <p class="text-xs text-gray-500">+12% from last month</p>
                 </div>
 
-                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-xl">
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 sm:p-6 shadow-xl card-hover">
                     <div class="flex items-center justify-between mb-2">
                         <h3 class="text-sm font-medium text-gray-400">Paid Amount</h3>
                         <svg class="h-4 w-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -231,7 +76,7 @@
                     <p class="text-xs text-gray-500">3 transactions</p>
                 </div>
 
-                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-xl">
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 sm:p-6 shadow-xl card-hover">
                     <div class="flex items-center justify-between mb-2">
                         <h3 class="text-sm font-medium text-gray-400">Pending Amount</h3>
                         <svg class="h-4 w-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -242,7 +87,7 @@
                     <p class="text-xs text-gray-500">2 transactions</p>
                 </div>
 
-                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-xl">
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 sm:p-6 shadow-xl card-hover">
                     <div class="flex items-center justify-between mb-2">
                         <h3 class="text-sm font-medium text-gray-400">Success Rate</h3>
                         <svg class="h-4 w-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -253,37 +98,42 @@
                     <p class="text-xs text-gray-500">Payment success rate</p>
                 </div>
             </div>
-
-             Search and Filters 
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 mb-6 shadow-xl">
-                <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-                    <div class="flex gap-4 flex-1">
-                        <div class="relative flex-1 max-w-sm">
-                            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
-                            <input type="text" placeholder="Search butcheries or references..." class="pl-10 bg-black border border-gray-700 text-white rounded-lg px-3 py-2 w-full focus:border-red-500 focus:outline-none">
+            <!-- Search and Filter Section -->
+            <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 sm:p-6 mb-6 shadow-xl">
+                <div class="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between w-full">
+                    <div class="w-full sm:flex-1 sm:mr-4">
+                        <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3">
+                            <div class="relative flex-1 min-w-0">
+                                <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                                <input type="text" placeholder="Search butcheries or references..." class="pl-10 pr-3 py-2 bg-black border border-gray-700 text-white rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none">
+                            </div>
+                            <div class="w-full sm:w-48">
+                                <select class="w-full bg-black border border-gray-700 text-white rounded-lg px-3 py-2 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none">
+                                    <option value="all">All Status</option>
+                                    <option value="paid">Paid</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="processing">Processing</option>
+                                    <option value="failed">Failed</option>
+                                </select>
+                            </div>
                         </div>
-                        <select class="bg-black border border-gray-700 text-white rounded-lg px-3 py-2 focus:border-red-500 focus:outline-none">
-                            <option value="all">All Status</option>
-                            <option value="paid">Paid</option>
-                            <option value="pending">Pending</option>
-                            <option value="processing">Processing</option>
-                            <option value="failed">Failed</option>
-                        </select>
                     </div>
-                    <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-lg transition-colors flex items-center gap-2">
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                        Export
-                    </button>
+                    <div class="w-full sm:w-auto">
+                        <button class="w-full sm:w-auto border-none bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-lg transition-colors flex items-center justify-center gap-2">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Export
+                        </button>
+                    </div>
                 </div>
             </div>
 
-             Payments Table 
-            <div class="bg-gray-900 border border-gray-800 rounded-lg shadow-xl">
-                <div class="p-6 border-b border-gray-800">
+            <!-- Payments Table -->
+            <div class="bg-gray-900 border border-gray-800 rounded-lg shadow-xl overflow-hidden">
+                <div class="p-4 sm:p-6 border-b border-gray-800">
                     <h3 class="text-white flex items-center gap-2 text-lg font-semibold">
                         <svg class="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
@@ -291,27 +141,26 @@
                         🔪 Payment Transactions
                     </h3>
                 </div>
-                <div class="p-6">
+                <div class="p-0 sm:p-6">
                     <div class="overflow-x-auto">
                         <table class="w-full">
                             <thead>
                                 <tr class="border-b border-gray-800">
-                                    <th class="text-left text-orange-400 font-semibold py-3">Payment ID</th>
-                                    <th class="text-left text-orange-400 font-semibold py-3">Butchery</th>
-                                    <th class="text-left text-orange-400 font-semibold py-3">Amount</th>
-                                    <th class="text-left text-orange-400 font-semibold py-3">Status</th>
-                                    <th class="text-left text-orange-400 font-semibold py-3">Date</th>
-                                    <th class="text-left text-orange-400 font-semibold py-3">Method</th>
-                                    <th class="text-left text-orange-400 font-semibold py-3">Reference</th>
-                                    <th class="text-left text-orange-400 font-semibold py-3">Actions</th>
+                                    <th class="text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Payment ID</th>
+                                    <th class="hidden sm:table-cell text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Butchery</th>
+                                    <th class="text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Amount</th>
+                                    <th class="text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Status</th>
+                                    <th class="hidden md:table-cell text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Date</th>
+                                    <th class="hidden lg:table-cell text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Method</th>
+                                    <th class="hidden xl:table-cell text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Reference</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="border-b border-gray-800 hover:bg-gray-800/30">
-                                    <td class="py-4 font-medium text-white">PAY-001</td>
-                                    <td class="py-4 text-gray-300">Mama Nguo Butchery</td>
-                                    <td class="py-4 text-green-400 font-semibold">KSh 45,000</td>
-                                    <td class="py-4">
+                                    <td class="py-4 px-4 sm:px-6 font-medium text-white">PAY-001</td>
+                                    <td class="hidden sm:table-cell py-4 px-4 sm:px-6 text-gray-300">Mama Nguo Butchery</td>
+                                    <td class="py-4 px-4 sm:px-6 text-green-400 font-semibold">KSh 45,000</td>
+                                    <td class="py-4 px-4 sm:px-6">
                                         <span class="status-badge status-paid">
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -319,21 +168,15 @@
                                             Paid
                                         </span>
                                     </td>
-                                    <td class="py-4 text-gray-300">2024-01-15</td>
-                                    <td class="py-4 text-gray-300">M-Pesa</td>
-                                    <td class="py-4 text-gray-400 font-mono text-sm">MPX123456789</td>
-                                    <td class="py-4">
-                                        <button class="text-blue-400 hover:text-blue-300 hover:bg-gray-800 px-3 py-1 rounded transition-colors">
-                                            View Details
-                                        </button>
-                                    </td>
+                                    <td class="hidden md:table-cell py-4 px-4 sm:px-6 text-gray-300">2024-01-15</td>
+                                    <td class="hidden lg:table-cell py-4 px-4 sm:px-6 text-gray-300">M-Pesa</td>
+                                    <td class="hidden xl:table-cell py-4 px-4 sm:px-6 text-gray-400 font-mono text-sm">MPX123456789</td>
                                 </tr>
-                                
                                 <tr class="border-b border-gray-800 hover:bg-gray-800/30">
-                                    <td class="py-4 font-medium text-white">PAY-002</td>
-                                    <td class="py-4 text-gray-300">Kariokor Fresh Meats</td>
-                                    <td class="py-4 text-green-400 font-semibold">KSh 25,000</td>
-                                    <td class="py-4">
+                                    <td class="py-4 px-4 sm:px-6 font-medium text-white">PAY-002</td>
+                                    <td class="hidden sm:table-cell py-4 px-4 sm:px-6 text-gray-300">Kariokor Fresh Meats</td>
+                                    <td class="py-4 px-4 sm:px-6 text-green-400 font-semibold">KSh 25,000</td>
+                                    <td class="py-4 px-4 sm:px-6">
                                         <span class="status-badge status-pending">
                                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -341,81 +184,10 @@
                                             Pending
                                         </span>
                                     </td>
-                                    <td class="py-4 text-gray-300">2024-01-14</td>
-                                    <td class="py-4 text-gray-300">Bank Transfer</td>
-                                    <td class="py-4 text-gray-400 font-mono text-sm">BT987654321</td>
-                                    <td class="py-4">
-                                        <button class="text-blue-400 hover:text-blue-300 hover:bg-gray-800 px-3 py-1 rounded transition-colors">
-                                            View Details
-                                        </button>
-                                    </td>
-                                </tr>
-                                
-                                <tr class="border-b border-gray-800 hover:bg-gray-800/30">
-                                    <td class="py-4 font-medium text-white">PAY-003</td>
-                                    <td class="py-4 text-gray-300">Eastleigh Halal Butchery</td>
-                                    <td class="py-4 text-green-400 font-semibold">KSh 65,000</td>
-                                    <td class="py-4">
-                                        <span class="status-badge status-failed">
-                                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            Failed
-                                        </span>
-                                    </td>
-                                    <td class="py-4 text-gray-300">2024-01-13</td>
-                                    <td class="py-4 text-gray-300">M-Pesa</td>
-                                    <td class="py-4 text-gray-400 font-mono text-sm">MPX555666777</td>
-                                    <td class="py-4">
-                                        <button class="text-blue-400 hover:text-blue-300 hover:bg-gray-800 px-3 py-1 rounded transition-colors">
-                                            View Details
-                                        </button>
-                                    </td>
-                                </tr>
-                                
-                                <tr class="border-b border-gray-800 hover:bg-gray-800/30">
-                                    <td class="py-4 font-medium text-white">PAY-004</td>
-                                    <td class="py-4 text-gray-300">Westlands Prime Cuts</td>
-                                    <td class="py-4 text-green-400 font-semibold">KSh 45,000</td>
-                                    <td class="py-4">
-                                        <span class="status-badge status-paid">
-                                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            Paid
-                                        </span>
-                                    </td>
-                                    <td class="py-4 text-gray-300">2024-01-12</td>
-                                    <td class="py-4 text-gray-300">Card Payment</td>
-                                    <td class="py-4 text-gray-400 font-mono text-sm">CD445566778</td>
-                                    <td class="py-4">
-                                        <button class="text-blue-400 hover:text-blue-300 hover:bg-gray-800 px-3 py-1 rounded transition-colors">
-                                            View Details
-                                        </button>
-                                    </td>
-                                </tr>
-                                
-                                <tr class="hover:bg-gray-800/30">
-                                    <td class="py-4 font-medium text-white">PAY-005</td>
-                                    <td class="py-4 text-gray-300">Kibera Community Butchery</td>
-                                    <td class="py-4 text-green-400 font-semibold">KSh 15,000</td>
-                                    <td class="py-4">
-                                        <span class="status-badge status-processing">
-                                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            Processing
-                                        </span>
-                                    </td>
-                                    <td class="py-4 text-gray-300">2024-01-11</td>
-                                    <td class="py-4 text-gray-300">M-Pesa</td>
-                                    <td class="py-4 text-gray-400 font-mono text-sm">MPX888999000</td>
-                                    <td class="py-4">
-                                        <button class="text-blue-400 hover:text-blue-300 hover:bg-gray-800 px-3 py-1 rounded transition-colors">
-                                            View Details
-                                        </button>
-                                    </td>
-                                </tr>
+                                    <td class="hidden md:table-cell py-4 px-4 sm:px-6 text-gray-300">2024-01-14</td>
+                                    <td class="hidden lg:table-cell py-4 px-4 sm:px-6 text-gray-300">Bank Transfer</td>
+                                    <td class="hidden xl:table-cell py-4 px-4 sm:px-6 text-gray-400 font-mono text-sm">BT987654321</td>
+                                </tr>                              
                             </tbody>
                         </table>
                     </div>

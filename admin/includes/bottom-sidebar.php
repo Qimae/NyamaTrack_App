@@ -72,15 +72,19 @@
       <i class="fas fa-home"></i>
       <span>Dashboard</span>
     </a>
-    <a href="manage_companies.php" class="sidebar-link">
+    <a href="blockings.php" class="sidebar-link">
       <i class="fas fa-credit-card"></i>
-      <span>Companies</span>
+      <span>Blockings</span>
+    </a>
+    <a href="butcheries.php" class="sidebar-link">
+      <i class="fas fa-credit-card"></i>
+      <span>Butcheries</span>
     </a>
     <a href="admin_employees.php" class="sidebar-link">
       <i class="fas fa-credit-card"></i>
       <span>Employees</span>
-    </a>
-    <a href="mpesa/subscription.php" class="sidebar-link">
+    </a> 
+    <a href="processing.php" class="sidebar-link">
       <i class="fas fa-money-bill"></i>
       <span>Subscriptions</span>
     </a>
