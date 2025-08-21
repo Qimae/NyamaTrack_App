@@ -9,7 +9,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="utils/registration.css">
-    <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#007bff" />
 </head>
 

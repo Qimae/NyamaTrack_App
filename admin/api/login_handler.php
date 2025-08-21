@@ -34,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hash_email = hash('sha256', strtolower($email));
 
     try {
-        // Check if user exists with the given email
-        $stmt = $pdo->prepare("SELECT * FROM admin_users WHERE email_hash = ? LIMIT 1");
+        // Check if admin user exists with the given email
+        $stmt = $pdo->prepare("SELECT id, email, fullname, password FROM admin_users WHERE email_hash = ? LIMIT 1");
         $stmt->execute([$hash_email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -54,13 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        // Decrypt fullname and business_name for session and response
+        // Decrypt fullname for session and response
         $dec_fullname = decrypt_data($user['fullname'], $secret_key);
-        $dec_business_name = decrypt_data($user['business_name'], $secret_key);
 
         if (password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = (int)$user['id'];
-            $_SESSION['business_name'] = $dec_business_name;
             $_SESSION['email'] = $email;
             echo json_encode(['success' => true, 'message' => 'Login successful.', 'fullname' => $dec_fullname, 'user_id' => $user['id']]);
         } else {

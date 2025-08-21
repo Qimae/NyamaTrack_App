@@ -49,7 +49,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
 
   try {
     // Submit form via AJAX
-    const response = await fetch('api/login_handler.php', {
+    const response = await fetch('./api/login_handler.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -60,9 +60,17 @@ document.getElementById("loginForm").addEventListener("submit", async function (
       })
     });
 
-    const data = await response.json();
+    const responseText = await response.text();
+    let data;
+    
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      console.error('Failed to parse JSON:', responseText);
+      throw new Error(`Server returned invalid JSON. Status: ${response.status} ${response.statusText}. Response: ${responseText.substring(0, 200)}`);
+    }
 
-    if (data.success) {
+    if (data && data.success) {
       // Show success message and redirect
       Swal.fire({
         title: 'Login Successful!',
@@ -96,14 +104,26 @@ document.getElementById("loginForm").addEventListener("submit", async function (
     }
   } catch (error) {
     console.error('Login error:', error);
+    let errorMessage = 'An error occurred. Please try again.';
+    
+    if (error instanceof SyntaxError) {
+      errorMessage = 'Server returned invalid response. Please check console for details.';
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
     Swal.fire({
       title: 'Login Failed',
-      text: 'An error occurred. Please try again.',
+      text: errorMessage,
       icon: 'error',
       confirmButtonText: 'Try Again',
       confirmButtonColor: '#e53e3e',
       background: '#1a1a1a',
-      color: '#fff'
+      color: '#fff',
+      width: '80%',
+      customClass: {
+        content: 'text-left'
+      }
     }).then(() => {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalBtnText;

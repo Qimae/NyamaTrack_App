@@ -250,7 +250,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         color: '#fff',
         allowOutsideClick: false
       });
-      window.location.href = "login.php";
+      window.location.href = "index.php";
     } else {
       let errorMessage = data.error || 'Registration failed. Please try again.';
       if (data.details) {

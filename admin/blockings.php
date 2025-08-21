@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// Check if user is not logged in
+if (!isset($_SESSION['user_id'])) {
+  header('Location: index.php');
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" class="dark">
 
@@ -53,59 +63,26 @@
                     <table class="w-full">
                         <thead>
                             <tr class="border-b border-gray-800">
-                                <th class="text-left text-orange-400 font-semibold py-3">Company ID</th>
                                 <th class="text-left text-orange-400 font-semibold py-3">Name</th>
                                 <th class="text-left text-orange-400 font-semibold py-3">Blocked Date</th>
                                 <th class="text-left text-orange-400 font-semibold py-3">Reason</th>
                                 <th class="text-left text-orange-400 font-semibold py-3">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <!-- Sample Blocked Company Row -->
-                            <tr class="border-b border-gray-800 hover:bg-gray-800/30">
-                                <td class="py-4 font-medium text-white">BUT123</td>
-                                <td class="py-4 text-gray-300">Sample Butchery Ltd</td>
-                                <td class="py-4 text-gray-300">2024-01-15</td>
-                                <td class="py-4 text-red-400">Payment Default</td>
-                                <td class="py-4">
-                                    <button class="bg-green-600 border-none hover:bg-green-700 text-white px-3 py-1 rounded-lg text-sm flex items-center gap-1">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        Unblock
-                                    </button>
-                                </td>
+                        <tbody id="blockedUsersTableBody">
+                            <!-- Blocked users will be loaded here via JavaScript -->
+                            <tr>
+                                <td colspan="5" class="py-4 text-center text-gray-400">Loading blocked users...</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <!-- Unblocking Request Section -->
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 shadow-xl">
-                <h2 class="text-xl font-semibold text-white mb-6">Unblocking Requests</h2>
-                <div class="grid gap-6">
-                    <!-- Sample Unblock Request Card -->
-                    <div class="border border-gray-800 rounded-lg p-4 hover:bg-gray-800/30">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h3 class="font-semibold text-white mb-2">Butchery Name Ltd</h3>
-                                <p class="text-sm text-gray-400">Request Date: 2024-01-16</p>
-                                <p class="text-sm text-gray-400 mt-2">Reason for unblock request:</p>
-                                <p class="text-sm text-gray-300 mt-1">Payment issues resolved. All outstanding amounts cleared.</p>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="bg-green-600 border-none hover:bg-green-700 text-white px-3 py-1 rounded-lg text-sm">
-                                    Approve
-                                </button>
-                                <button class="bg-red-600 border-none hover:bg-red-700 text-white px-3 py-1 rounded-lg text-sm">
-                                    Reject
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
+    </div>
+    </div>
+    <script src="js/blocking_script.js"></script>
 
 </body>
 
