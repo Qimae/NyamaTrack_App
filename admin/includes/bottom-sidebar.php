@@ -91,25 +91,21 @@
       <i class="fas fa-home"></i>
       <span>Dashboard</span>
     </a>
-    <a href="beef_transactions.php" class="sidebar-link">
+    <a href="blockings.php" class="sidebar-link">
       <i class="fas fa-credit-card"></i>
-      <span>Beef</span>
+      <span>Blockings</span>
     </a>
-    <a href="goat_transactions.php" class="sidebar-link">
+    <a href="butcheries.php" class="sidebar-link">
       <i class="fas fa-credit-card"></i>
-      <span>Goat</span>
+      <span>Butcheries</span>
     </a>
-    <a href="reports.php" class="sidebar-link">
-      <i class="fas fa-file-invoice-dollar"></i>
-      <span>Reports</span>
-    </a>
-    <a href="algorithm_report.php" class="sidebar-link">
-      <i class="fas fa-file-invoice-dollar"></i>
-      <span>Algo Reports</span>
-    </a>
-    <a href="mpesa/subscription.php" class="sidebar-link">
+    <a href="admin_employees.php" class="sidebar-link">
+      <i class="fas fa-credit-card"></i>
+      <span>Employees</span>
+    </a> 
+    <a href="subscriptions.php" class="sidebar-link">
       <i class="fas fa-money-bill"></i>
-      <span>Subscription</span>
+      <span>Subscriptions</span>
     </a>
     <a href="profile.php" class="sidebar-link">
       <i class="fas fa-user"></i>
