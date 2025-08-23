@@ -1,3 +1,35 @@
+<?php
+// Start session
+session_start();
+
+// Initialize default values
+$transactions = [];
+$total_revenue = 0;
+$paid_count = 0;
+$success_rate = 0;
+$total_count = 0;
+
+// Function to fetch data from API
+function fetchFromAPI($endpoint) {
+    $url = 'api/' . $endpoint;
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($response, true);
+}
+
+// Fetch data from API
+$data = fetchFromAPI('subscriptions_handler.php');
+
+if (isset($data['success']) && $data['success']) {
+    $transactions = $data['transactions'] ?? [];
+    $total_revenue = $data['total_revenue'] ?? 0;
+    $paid_count = $data['paid_count'] ?? 0;
+    $success_rate = $data['success_rate'] ?? 0;
+    $total_count = $data['total_count'] ?? 0;
+}
+?>
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -5,26 +37,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Processing - NyamaTrack Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        gray: {
-                            950: '#030712',
-                        }
-                    }
-                }
-            },
-            corePlugins: {
-                preflight: false,
-            },
-        }
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/subscriptions.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="utils/emmanuel.css">
-   
+    <link rel="stylesheet" href="utils/emmanuel.css"> 
 </head>
 <body class="bg-black text-white">
     <?php include 'includes/left-sidebar.php'; ?>
@@ -48,12 +64,12 @@
                     </div>
                     <div class="flex-1">
                         <h1 class="text-2xl sm:text-3xl font-bold text-white">Payment Processing</h1>
-                        <p class="text-sm sm:text-base text-gray-400">🥩 Manage payments, confirmations and processing status</p>
+                        <p class="text-sm sm:text-base text-gray-400">Manage payments, confirmations and processing status</p>
                     </div>
                 </div>
             </div>
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
                 <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 sm:p-6 shadow-xl card-hover">
                     <div class="flex items-center justify-between mb-2">
                         <h3 class="text-sm font-medium text-gray-400">Total Revenue</h3>
@@ -61,7 +77,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                         </svg>
                     </div>
-                    <div class="text-2xl font-bold text-green-400">KSh 195,000</div>
+                    <div class="text-2xl font-bold text-green-400" data-stat="total-revenue">KSh <?= number_format($total_revenue, 2) ?></div>
                     <p class="text-xs text-gray-500">+12% from last month</p>
                 </div>
 
@@ -72,20 +88,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <div class="text-2xl font-bold text-green-400">KSh 135,000</div>
-                    <p class="text-xs text-gray-500">3 transactions</p>
+                    <div class="text-2xl font-bold text-green-400" data-stat="paid-amount">KSh <?= number_format($total_revenue, 2) ?></div>
+                    <p class="text-xs text-gray-500"><span data-stat="paid-count"><?= $paid_count ?></span> successful transaction<?= $paid_count != 1 ? 's' : '' ?></p>
                 </div>
 
-                <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 sm:p-6 shadow-xl card-hover">
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-sm font-medium text-gray-400">Pending Amount</h3>
-                        <svg class="h-4 w-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-                        </svg>
-                    </div>
-                    <div class="text-2xl font-bold text-yellow-400">KSh 40,000</div>
-                    <p class="text-xs text-gray-500">2 transactions</p>
-                </div>
+                
 
                 <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 sm:p-6 shadow-xl card-hover">
                     <div class="flex items-center justify-between mb-2">
@@ -94,7 +101,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                         </svg>
                     </div>
-                    <div class="text-2xl font-bold text-blue-400">60%</div>
+                    <div class="text-2xl font-bold text-blue-400" data-stat="success-rate"><?= $success_rate ?>%</div>
                     <p class="text-xs text-gray-500">Payment success rate</p>
                 </div>
             </div>
@@ -107,7 +114,7 @@
                                 <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
-                                <input type="text" placeholder="Search butcheries or references..." class="pl-10 pr-3 py-2 bg-black border border-gray-700 text-white rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none">
+                                <input type="text" placeholder="Search butcheries or references..." class="w-full pl-10 pr-3 py-2 bg-black border border-gray-700 text-white rounded-lg focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none">
                             </div>
                             <div class="w-full sm:w-48">
                                 <select class="w-full bg-black border border-gray-700 text-white rounded-lg px-3 py-2 focus:border-red-500 focus:ring-1 focus:ring-red-500 focus:outline-none">
@@ -135,10 +142,8 @@
             <div class="bg-gray-900 border border-gray-800 rounded-lg shadow-xl overflow-hidden">
                 <div class="p-4 sm:p-6 border-b border-gray-800">
                     <h3 class="text-white flex items-center gap-2 text-lg font-semibold">
-                        <svg class="h-5 w-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
-                        </svg>
-                        🔪 Payment Transactions
+                    <i class="fas fa-money-bill-wave text-green-500"></i>
+                        Payment Transactions
                     </h3>
                 </div>
                 <div class="p-0 sm:p-6">
@@ -146,48 +151,21 @@
                         <table class="w-full">
                             <thead>
                                 <tr class="border-b border-gray-800">
-                                    <th class="text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Payment ID</th>
-                                    <th class="hidden sm:table-cell text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Butchery</th>
+                                    <th class="text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">#ID</th>
+                                    <th class="hidden sm:table-cell text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Phone Number</th>
                                     <th class="text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Amount</th>
                                     <th class="text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Status</th>
                                     <th class="hidden md:table-cell text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Date</th>
                                     <th class="hidden lg:table-cell text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Method</th>
-                                    <th class="hidden xl:table-cell text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Reference</th>
+                                    <th class="hidden xl:table-cell text-left text-orange-400 font-semibold py-3 px-4 sm:px-6">Receipt Number</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class="border-b border-gray-800 hover:bg-gray-800/30">
-                                    <td class="py-4 px-4 sm:px-6 font-medium text-white">PAY-001</td>
-                                    <td class="hidden sm:table-cell py-4 px-4 sm:px-6 text-gray-300">Mama Nguo Butchery</td>
-                                    <td class="py-4 px-4 sm:px-6 text-green-400 font-semibold">KSh 45,000</td>
-                                    <td class="py-4 px-4 sm:px-6">
-                                        <span class="status-badge status-paid">
-                                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            Paid
-                                        </span>
-                                    </td>
-                                    <td class="hidden md:table-cell py-4 px-4 sm:px-6 text-gray-300">2024-01-15</td>
-                                    <td class="hidden lg:table-cell py-4 px-4 sm:px-6 text-gray-300">M-Pesa</td>
-                                    <td class="hidden xl:table-cell py-4 px-4 sm:px-6 text-gray-400 font-mono text-sm">MPX123456789</td>
-                                </tr>
-                                <tr class="border-b border-gray-800 hover:bg-gray-800/30">
-                                    <td class="py-4 px-4 sm:px-6 font-medium text-white">PAY-002</td>
-                                    <td class="hidden sm:table-cell py-4 px-4 sm:px-6 text-gray-300">Kariokor Fresh Meats</td>
-                                    <td class="py-4 px-4 sm:px-6 text-green-400 font-semibold">KSh 25,000</td>
-                                    <td class="py-4 px-4 sm:px-6">
-                                        <span class="status-badge status-pending">
-                                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            Pending
-                                        </span>
-                                    </td>
-                                    <td class="hidden md:table-cell py-4 px-4 sm:px-6 text-gray-300">2024-01-14</td>
-                                    <td class="hidden lg:table-cell py-4 px-4 sm:px-6 text-gray-300">Bank Transfer</td>
-                                    <td class="hidden xl:table-cell py-4 px-4 sm:px-6 text-gray-400 font-mono text-sm">BT987654321</td>
-                                </tr>                              
+                            <tbody id="transactions-table">
+                                <?php if (empty($transactions)): ?>
+                                    <tr>
+                                        <td colspan="7" class="py-4 text-center text-gray-500">No transactions found</td>
+                                    </tr>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>

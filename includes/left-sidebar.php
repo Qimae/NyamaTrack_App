@@ -1,5 +1,5 @@
 <style>
-  /* Hide left sidebar on mobile */
+  /* Left sidebar styles */
   .left-sidebar {
     display: none;
   }
@@ -18,18 +18,20 @@
       z-index: 1000;
       box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
       border-right: 1px solid #374151;
+      overflow-y: auto;
     }
 
-    .sidebar-content {
+    .left-sidebar-content {
       display: flex;
       flex-direction: column;
       gap: 1rem;
       height: 100%;
       justify-content: flex-start;
+      padding-bottom: 2rem;
     }
 
-    .sidebar-link {
-      color: var(--muted);
+    .left-sidebar-link {
+      color: #9ca3af;
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -39,53 +41,65 @@
       width: 100%;
     }
 
-    .sidebar-link:hover {
-      background-color: var(--primary);
+    .left-sidebar-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
       transform: translateX(5px);
     }
+    
+    .left-sidebar-link i {
+      width: 24px;
+      margin-right: 10px;
+      text-align: center;
+    }
+    
+    .left-sidebar-link.active {
+      background-color: rgba(59, 130, 246, 0.2);
+      color: #3b82f6;
+    }
 
-    .sidebar-link i {
+    .left-sidebar-link i {
       font-size: 1.2rem;
       margin-right: 0.75rem;
     }
 
-    .sidebar-link span {
+    .left-sidebar-link span {
       font-size: 0.95rem;
     }
   }
 </style>
 
 <nav class="left-sidebar">
-  <div class="sidebar-content">
-    <a href="dashboard.php" class="sidebar-link">
+  <div class="left-sidebar-content">
+    <a href="dashboard.php" class="left-sidebar-link">
       <i class="fas fa-home"></i>
       <span>Dashboard</span>
     </a>
-    <a href="beef_transactions.php" class="sidebar-link">
+    <a href="beef_transactions.php" class="left-sidebar-link">
       <i class="fas fa-credit-card"></i>
       <span>Beef Transactions</span>
     </a>
-    <a href="goat_transactions.php" class="sidebar-link">
+    <a href="goat_transactions.php" class="left-sidebar-link">
       <i class="fas fa-credit-card"></i>
       <span>Goat Transactions</span>
     </a>
-    <a href="reports.php" class="sidebar-link">
+    <a href="reports.php" class="left-sidebar-link">
       <i class="fas fa-file-invoice-dollar"></i>
       <span>Reports</span>
     </a>
-    <a href="algorithm_report.php" class="sidebar-link">
-      <i class="fas fa-file-invoice-dollar"></i>
-      <span>Algorithm Reports</span>
+    <a href="algorithm_report.php" class="left-sidebar-link">
+      <i class="fas fa-chart-line"></i>
+      <span>Algo Reports</span>
     </a>
-    <a href="mpesa/subscription.php" class="sidebar-link">
+    <a href="mpesa/subscription.php" class="left-sidebar-link">
       <i class="fas fa-money-bill"></i>
       <span>Subscription</span>
     </a>
-    <a href="profile.php" class="sidebar-link">
+    <a href="profile.php" class="left-sidebar-link">
       <i class="fas fa-user"></i>
       <span>Profile</span>
     </a>
-    <a href="logout.php" class="sidebar-link">
+    <a href="logout.php" class="left-sidebar-link">
       <i class="fas fa-sign-out-alt"></i>
       <span>Logout</span>
     </a>

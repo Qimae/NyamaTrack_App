@@ -1,72 +1,91 @@
 <style>
-  /* Hide bottom sidebar on desktop */
   .bottom-sidebar {
-    display: none;
+    position: fixed;
+    bottom: -100px;
+    left: 0;
+    right: 0;
+    background-color: #111826;
+    padding: 15px 0;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* Show bottom sidebar only on mobile devices */
-  @media (max-width: 767px) {
+  .bottom-sidebar.visible {
+    bottom: 0;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .sidebar-content {
+    display: flex;
+    justify-content: flex-start;
+    min-width: max-content;
+    width: 100%;
+    margin: 0;
+    padding: 0 20px;
+    gap: 15px;
+  }
+  
+  .sidebar-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 0.8rem;
+    padding: 10px 15px;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+  
+  .sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  @media (min-width: 768px) {
     .bottom-sidebar {
-      display: block;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: #111826;
-      padding: 1rem;
-      z-index: 1000;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-      border-top: 1px solid #374151;
-    }
-    
-    .sidebar-content {
-      display: flex;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      overflow-x: auto;
-      padding: 0 1rem;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-    
-    .sidebar-content::-webkit-scrollbar {
       display: none;
     }
+  }
 
-    .sidebar-link {
-      color: #fff;
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      min-width: 80px;
-      margin: 0 0.5rem;
+  @media (max-width: 767px) {
+    .sidebar-content {
+      padding: 0 15px;
+      gap: 10px;
     }
     
-    .sidebar-link:hover {
-      background-color:var(--primary);
-      transform: translateY(-2px);
+    .sidebar-link {
+      font-size: 0.7rem;
+      padding: 8px 10px;
     }
     
     .sidebar-link i {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
+      font-size: 1.4rem;
+      margin-bottom: 4px;
     }
-    
-    .sidebar-link span {
-      font-size: 0.9rem;
-      text-align: center;
-      white-space: nowrap;
-    }
+  }
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .bottom-sidebar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .bottom-sidebar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
 </style>
 
-<nav class="bottom-sidebar">
+<nav class="bottom-sidebar" id="bottomNav">
   <div class="sidebar-content">
     <a href="dashboard.php" class="sidebar-link">
       <i class="fas fa-home"></i>
@@ -84,7 +103,7 @@
       <i class="fas fa-credit-card"></i>
       <span>Employees</span>
     </a> 
-    <a href="processing.php" class="sidebar-link">
+    <a href="subscriptions.php" class="sidebar-link">
       <i class="fas fa-money-bill"></i>
       <span>Subscriptions</span>
     </a>
@@ -98,3 +117,55 @@
     </a>
   </div>
 </nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const bottomNav = document.getElementById('bottomNav');
+  let scrollTimer;
+  let lastScrollTop = 0;
+  const hideDelay = 5000; // 5 seconds
+
+  // Show/hide on scroll
+  window.addEventListener('scroll', function() {
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Only show if scrolled down a bit
+    if (currentScroll > 50) {
+      // Clear any existing timeout
+      clearTimeout(scrollTimer);
+      
+      // Show the navbar
+      bottomNav.classList.add('visible');
+      
+      // Set a timeout to hide the navbar after scrolling stops
+      scrollTimer = setTimeout(function() {
+        bottomNav.classList.remove('visible');
+      }, hideDelay);
+      
+      // Update last scroll position
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    }
+  });
+
+  // Hide navbar when clicking anywhere on the page
+  document.addEventListener('click', function() {
+    bottomNav.classList.remove('visible');
+  });
+
+  // Show navbar when hovering over it
+  bottomNav.addEventListener('mouseenter', function() {
+    clearTimeout(scrollTimer);
+    bottomNav.classList.add('visible');
+  });
+
+  // Hide navbar after mouse leaves (with delay)
+  bottomNav.addEventListener('mouseleave', function() {
+    scrollTimer = setTimeout(function() {
+      bottomNav.classList.remove('visible');
+    }, hideDelay);
+  });
+
+  // Initial state - hide navbar
+  bottomNav.classList.remove('visible');
+});
+</script>
