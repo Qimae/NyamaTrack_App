@@ -27,7 +27,7 @@
   include 'includes/left-sidebar.php';
   include 'includes/bottom-sidebar.php';
   ?>
-<div class="bg" aria-hidden="true">
+  <div class="bg" aria-hidden="true">
     <div class="orb red"></div>
     <div class="orb amber"></div>
     <div class="grid-overlay"></div>
@@ -98,7 +98,7 @@
                   <button type="button" id="applyFilter" class="btn btn-primary w-100">
                     <i class="fas fa-filter me-1"></i>Apply Filter
                   </button>
-                </div>                
+                </div>
               </div>
             </div>
             <div class="card-body">
