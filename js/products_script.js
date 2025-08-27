@@ -198,17 +198,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Delete product button click handler
     $(document).on('click', '.delete-product', function(e) {
         e.preventDefault();
         e.stopPropagation();
         const productId = $(this).data('id');
-        $('#deleteProductId').val(productId);
-        const deleteModalElement = document.getElementById('deleteModal');
-        if (deleteModalElement) {
-            const modal = bootstrap.Modal.getInstance(deleteModalElement) || 
-                         new bootstrap.Modal(deleteModalElement);
-            modal.show();
-        }
+        showDeleteConfirmation(productId);
     });
 
     // Load products into DataTable
