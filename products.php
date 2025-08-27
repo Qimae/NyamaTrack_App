@@ -74,15 +74,15 @@ if (!isset($_SESSION['user_id'])) {
 
                             <!-- Products Table -->
                             <div class="table-responsive">
-                                <table class="table table-hover table-dark" id="productsTable" style="width:100%; color: var(--text-color);">
+                                <table class="table table-border" id="productsTable" style="width:100%; color: white; background-color: transparent; --bs-table-bg: transparent; --bs-table-striped-bg: transparent; --bs-table-color: white;">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Image</th>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            <th>Price (Ksh)</th>
-                                            <th>Actions</th>
+                                            <th class="text-start">Product ID</th>
+                                            <th class="text-center">Image</th>
+                                            <th class="text-start">Name</th>
+                                            <th class="text-start">Description</th>
+                                            <th class="text-end">Price (Ksh)</th>
+                                            <th class="text-end">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
