@@ -1,13 +1,42 @@
 <?php
-// Handles login form input from login.html
+// Set error reporting and display errors
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/../logs/php_errors.log');
 
-require_once __DIR__ . '/../db/config.php';
+// Set JSON content type
+header('Content-Type: application/json');
 
-// Constants for login attempts
-const MAX_LOGIN_ATTEMPTS = 3;
-const LOCKOUT_MINUTES = 3; // 30 minutes lockout after max attempts
+// Function to send JSON response
+function sendJsonResponse($data, $statusCode = 200) {
+    http_response_code($statusCode);
+    echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    exit;
+}
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Function to log errors
+function logError($message, $data = []) {
+    $logMessage = '[' . date('Y-m-d H:i:s') . '] ' . $message;
+    if (!empty($data)) {
+        $logMessage .= ' ' . json_encode($data, JSON_PRETTY_PRINT);
+    }
+    error_log($logMessage);
+}
+
+try {
+    // Load database configuration
+    $configFile = __DIR__ . '/../db/config.php';
+    if (!file_exists($configFile)) {
+        throw new Exception('Database configuration file not found');
+    }
+    require_once $configFile;
+    
+    // Constants for login attempts
+    define('MAX_LOGIN_ATTEMPTS', 3);
+    define('LOCKOUT_MINUTES', 3); // 30 minutes lockout after max attempts
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_start();
     $business_name = trim($_POST['business_name'] ?? '');
     $email = trim($_POST['email'] ?? '');
@@ -49,8 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hash_email = hash('sha256', strtolower($email));
 
     try {
-        // Get user with failed_attempts and last_failed_attempt
-        $stmt = $pdo->prepare("SELECT id, fullname, business_name, password, failed_attempts, last_failed_attempt FROM users WHERE email_hash = ? AND business_name_hash = ? LIMIT 1");
+        // Get user with all necessary fields including created_at
+        $stmt = $pdo->prepare("SELECT id, fullname, business_name, password, failed_attempts, last_failed_attempt, created_at FROM users WHERE email_hash = ? AND business_name_hash = ? LIMIT 1");
         $stmt->execute([$hash_email, $hash_business_name]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
@@ -84,16 +113,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Decrypt fullname and business_name for session and response
             $dec_fullname = decrypt_data($user['fullname'], $secret_key);
             $dec_business_name = decrypt_data($user['business_name'], $secret_key);
-            $_SESSION['user_id'] = (int)$user['id'];
+            $user_id = (int)$user['id'];
+            
+            // Check subscription status
+            $subscriptionStmt = $pdo->prepare("
+                SELECT s.*, u.created_at as user_created_at 
+                FROM subscribers s 
+                RIGHT JOIN users u ON s.business_name = u.business_name 
+                WHERE u.business_name = ?
+            ");
+            $subscriptionStmt->execute([$dec_business_name]);
+            $subscription = $subscriptionStmt->fetch(PDO::FETCH_ASSOC);
+            
+            $now = new DateTime();
+            $trialEndDate = new DateTime($subscription ? $subscription['end_date'] : $user['created_at']);
+            $trialEndDate->modify('+7 days');
+            $daysRemaining = $now->diff($trialEndDate)->days;
+            $isTrialExpired = $now > $trialEndDate;
+            $isSubscribed = $subscription && $subscription['status'] === 'active' && $subscription['subscription_type'] === 'paid';
+            
+            // If no subscription exists and user is new, create a trial
+            if (!$subscription) {
+                $trialEndDate = new DateTime();
+                $trialEndDate->modify('+7 days');
+                
+                // First check if business is blocked
+                $checkBlocked = $pdo->prepare("SELECT * FROM blocked_butcheries WHERE business_name = ?");
+                $checkBlocked->execute([$dec_business_name]);
+                
+                if ($checkBlocked->rowCount() > 0) {
+                    throw new Exception('This business has been blocked. Please contact support for assistance.');
+                }
+                
+                $insertStmt = $pdo->prepare("
+                    INSERT INTO subscribers (user_id, business_name, subscription_type, status, end_date)
+                    VALUES (?, ?, 'trial', 'active', ?)
+                ");
+                $insertStmt->execute([$user_id, $dec_business_name, $trialEndDate->format('Y-m-d H:i:s')]);
+                
+                $daysRemaining = 7;
+                $isTrialExpired = false;
+            } elseif ($subscription['status'] === 'expired' && $subscription['subscription_type'] === 'trial') {
+                $isTrialExpired = true;
+                $daysRemaining = 0;
+            }
+            
+            // Set session variables
+            $_SESSION['user_id'] = $user_id;
             $_SESSION['business_name'] = $dec_business_name;
             $_SESSION['email'] = $email;
+            $_SESSION['is_trial'] = !$isSubscribed;
+            $_SESSION['trial_days_remaining'] = $daysRemaining;
+            $_SESSION['trial_expired'] = $isTrialExpired && !$isSubscribed;
             
-            echo json_encode([
+            // Prepare response
+            $response = [
                 'success' => true, 
                 'message' => 'Login successful.', 
                 'fullname' => $dec_fullname, 
-                'user_id' => $user['id']
-            ]);
+                'user_id' => $user_id,
+                'subscription' => [
+                    'is_trial' => !$isSubscribed,
+                    'trial_days_remaining' => $daysRemaining,
+                    'trial_expired' => $isTrialExpired && !$isSubscribed
+                ]
+            ];
+            
+            // Redirect to payment if trial expired and not subscribed
+            if ($isTrialExpired && !$isSubscribed) {
+                $response['redirect'] = 'payment.php';
+            }
+            
+            echo json_encode($response);
         } else {
             $attempts_remaining = 0;
             
@@ -137,10 +228,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
         }
     } catch (PDOException $e) {
+        error_log('Database Error: ' . $e->getMessage());
         http_response_code(500);
-        echo json_encode(['error' => 'Login failed.']);
+        echo json_encode([
+            'error' => 'Database error occurred',
+            'debug' => [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ]
+        ]);
+    } catch (Exception $e) {
+        error_log('Login Error: ' . $e->getMessage());
+        http_response_code(500);
+        echo json_encode([
+            'error' => 'An error occurred during login',
+            'debug' => [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]
+        ]);
+        }
+    } else {
+        http_response_code(405);
+        echo json_encode(['error' => 'Method not allowed.']);
     }
-} else {
-    http_response_code(405);
-    echo json_encode(['error' => 'Method not allowed.']);
+} catch (PDOException $e) {
+    logError('Database Error: ' . $e->getMessage(), [
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString()
+    ]);
+    
+    sendJsonResponse([
+        'success' => false,
+        'error' => 'Database connection failed',
+        'debug' => [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
+        ]
+    ], 500);
+    
+} catch (Exception $e) {
+    logError('Unexpected Error: ' . $e->getMessage(), [
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTraceAsString()
+    ]);
+    
+    sendJsonResponse([
+        'success' => false,
+        'error' => 'An unexpected error occurred',
+        'debug' => [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
+        ]
+    ], 500);
 }

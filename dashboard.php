@@ -41,6 +41,28 @@ if (!isset($_SESSION['user_id'])) {
 
   <main class="py-4 dashboard">
     <div class="container-fluid">
+      <?php if (isset($_SESSION['is_trial'])): ?>
+      <div class="row mb-3">
+        <div class="col-12">
+          <div class="alert alert-<?php echo $_SESSION['trial_expired'] ? 'danger' : 'warning'; ?> d-flex justify-content-between align-items-center" role="alert">
+            <div>
+              <i class="fas <?php echo $_SESSION['trial_expired'] ? 'fa-exclamation-triangle' : 'fa-info-circle'; ?> me-2"></i>
+              <?php if ($_SESSION['trial_expired']): ?>
+                Your free trial has expired. Please subscribe to continue using NyamaTrack.
+              <?php else: ?>
+                You have <?php echo $_SESSION['trial_days_remaining']; ?> days left in your free trial. Subscribe now to continue after trial ends.
+              <?php endif; ?>
+            </div>
+            <?php if ($_SESSION['trial_expired']): ?>
+              <a href="./mpesa/subscription.php" class="btn btn-sm btn-primary">Subscribe Now</a>
+            <?php else: ?>
+              <a href="./mpesa/subscription.php" class="btn btn-sm btn-outline-primary">Upgrade Now</a>
+            <?php endif; ?>
+          </div>
+        </div>
+      </div>
+      <?php endif; ?>
+
       <div class="row mb-3">
         <div class="col-12 d-flex justify-content-between align-items-center">
           <h1 class="mb-0">Dashboard</h1>

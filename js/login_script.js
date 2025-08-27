@@ -3,6 +3,8 @@ function togglePassword(inputId) {
   const passwordInput = document.getElementById(inputId);
   const toggleIcon = document.getElementById(inputId + 'Toggle');
 
+  if (!passwordInput || !toggleIcon) return;
+
   if (passwordInput.type === 'password') {
       passwordInput.type = 'text';
       toggleIcon.classList.remove('fa-eye');

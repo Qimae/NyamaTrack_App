@@ -1,0 +1,2 @@
+[27-Aug-2025 10:22:19 Europe/Berlin] PHP Warning:  Undefined array key "created_at" in C:\xampp\htdocs\NyamaTrack_App\api\login_handler.php on line 129
+[27-Aug-2025 10:22:19 Europe/Berlin] Database Error: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'Winnie Butchery' for key 'unique_business'

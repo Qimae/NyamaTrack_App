@@ -116,3 +116,20 @@ CREATE TABLE mpesa_transactions (
     INDEX (business_name, transaction_date)
 );
 
+-- Table for subscribers
+CREATE TABLE IF NOT EXISTS subscribers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    business_name VARCHAR(255) NOT NULL,
+    subscription_type ENUM('trial', 'paid') NOT NULL DEFAULT 'trial',
+    status ENUM('active', 'expired', 'cancelled') NOT NULL DEFAULT 'active',
+    start_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    end_date TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_business (business_name),
+    KEY idx_user_id (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
