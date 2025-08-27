@@ -25,6 +25,7 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Other JS libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="utils/becken.css">
@@ -41,40 +42,54 @@ if (!isset($_SESSION['user_id'])) {
         <div class="grid-overlay"></div>
     </div>
     <main class="py-4 transactions">
+        <!-- Alert Container -->
+        <div id="alertContainer" class="container mt-3" style="position: fixed; top: 20px; right: 20px; z-index: 9999; max-width: 400px;"></div>
 
         <div class="container-fluid">
             <div class="row mb-4">
                 <div class="col-12">
                     <h1 class="mb-4">Manage Products</h1>
-                    <div class="card" style="background-color: var(--secondary-color); color: var(--text-color);">
-                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <div class="btn-toolbar mb-2 mb-md-0">
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
-                                    <i class="bi bi-plus-circle"></i> Add New Product
-                                </button>
-                            </div>
+                    <div class="card mb-4" style="background-color: var(--secondary-color); color: var(--text-color);">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="fas fa-box me-2"></i>Products</h5>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
+                                <i class="fas fa-plus me-1"></i> Add New Product
+                            </button>
                         </div>
+                        <div class="card-body">
+                            <!-- Date Filter Form -->
+                            <div class="mb-4">
+                                <form id="filterForm" class="row g-3">
+                                    <div class="col-md-3">
+                                        <label for="searchName" class="form-label">Search by Name</label>
+                                        <input type="text" class="form-control bg-dark text-light border-secondary" id="searchName" placeholder="Product name...">
+                                    </div>
+                                    <div class="col-md-3 d-flex align-items-end">
+                                        <button type="button" id="resetFilters" class="btn btn-outline-secondary">
+                                            <i class="fas fa-sync-alt me-1"></i> Reset
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
 
-                        <!-- Success/Error Messages -->
-                        <div id="alertContainer"></div>
-
-                        <!-- Products Table -->
-                        <div class="table-wrap">
-                            <table class="table table-hover" style="width:100%; color: var(--text-color); background-color: inherit;" id="productsTable">
-                            <thead style="background-color: inherit;">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Image</th>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Price (Ksh)</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Products will be loaded via JavaScript -->
-                                </tbody>
-                            </table>
+                            <!-- Products Table -->
+                            <div class="table-responsive">
+                                <table class="table table-hover table-dark" id="productsTable" style="width:100%; color: var(--text-color);">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Image</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Price (Ksh)</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Products will be loaded via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

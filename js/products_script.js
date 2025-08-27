@@ -103,44 +103,84 @@ document.addEventListener('DOMContentLoaded', function() {
             $('#productsTable').DataTable().destroy();
         }
         
-        // Initialize new DataTable and assign to the global variable
+        // Initialize new DataTable with server-side processing
         window.productsDataTable = $('#productsTable').DataTable({
+            processing: true,
+            serverSide: true,
             ajax: {
                 url: 'api/products_handler.php?action=get_products',
-                dataSrc: 'data'
+                type: 'GET'
             },
             columns: [
-                { data: 'id' },
+                { data: 'id', className: 'text-center' },
                 {
                     data: 'image_path',
+                    className: 'text-center',
                     render: function(data) {
-                        return data ? `<img src="${data}" alt="Product" class="img-thumbnail" style="max-width: 50px; max-height: 50px;">` : 'No Image';
+                        return data ? 
+                            `<img src="${data}" alt="Product" class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">` : 
+                            '<i class="fas fa-image text-muted"></i>';
+                    },
+                    orderable: false
+                },
+                { 
+                    data: 'name',
+                    render: function(data) {
+                        return `<strong>${data}</strong>`;
                     }
                 },
-                { data: 'name' },
-                { data: 'description' },
+                { 
+                    data: 'description',
+                    render: function(data) {
+                        return data || '<span class="text-muted">No description</span>';
+                    }
+                },
                 { 
                     data: 'price',
+                    className: 'text-end',
                     render: function(data) {
-                        return 'Ksh ' + parseFloat(data).toFixed(2);
+                        return `<span class="fw-bold">Ksh ${parseFloat(data).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>`;
                     }
                 },
                 {
                     data: null,
+                    className: 'text-center',
+                    orderable: false,
                     render: function(data) {
                         return `
-                            <button class="btn btn-sm btn-primary edit-product" data-id="${data.id}">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-sm btn-danger delete-product" data-id="${data.id}">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-outline-primary edit-product" data-id="${data.id}" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-danger delete-product" data-id="${data.id}" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                         `;
                     }
                 }
             ],
+            order: [[0, 'desc']],
             responsive: true,
-            order: [[0, 'desc']]
+            drawCallback: function() {
+                $('[data-bs-toggle="tooltip"]').tooltip();
+            },
+            language: {
+                processing: '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>',
+                emptyTable: 'No products found',
+                zeroRecords: 'No matching products found'
+            }
+        });
+
+        // Search by name
+        $('#searchName').on('keyup', function() {
+            window.productsDataTable.column(2).search(this.value).draw();
+        });
+
+        // Reset filters
+        $('#resetFilters').on('click', function() {
+            $('#searchName').val('');
+            window.productsDataTable.search('').columns().search('').draw();
         });
     }
     
@@ -375,22 +415,32 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show alert message
     function showAlert(type, message) {
         const alertContainer = document.getElementById('alertContainer');
-        const alert = document.createElement('div');
-        alert.className = `alert alert-${type} alert-dismissible fade show`;
-        alert.role = 'alert';
-        alert.innerHTML = `
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        `;
         
-        alertContainer.innerHTML = '';
-        alertContainer.appendChild(alert);
-        
-        // Auto-remove alert after 5 seconds
-        setTimeout(() => {
-            const alert = bootstrap.Alert.getOrCreateInstance(alertContainer.querySelector('.alert'));
-            alert.close();
-        }, 5000);
+        // Create alert if container exists
+        if (alertContainer) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} alert-dismissible fade show`;
+            alert.role = 'alert';
+            alert.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            
+            // Clear any existing alerts
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alert);
+            
+            // Auto-remove alert after 5 seconds
+            setTimeout(() => {
+                const alertInstance = bootstrap.Alert.getOrCreateInstance(alert);
+                if (alertInstance) {
+                    alertInstance.close();
+                }
+            }, 5000);
+        } else {
+            // Fallback to console if container not found
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
     }
 
 });
