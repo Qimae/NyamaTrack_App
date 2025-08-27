@@ -145,7 +145,7 @@ $unblockRequests = $unblockRequestsQuery->fetchAll(PDO::FETCH_ASSOC);
                             </table>
                         </div>
                         <div class="flex gap-3 pt-2">
-                            <a href="processing.php" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-lg transition-colors no-underline">
+                            <a href="subscriptions.php" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-lg transition-colors no-underline">
                                 View All Payments
                             </a>                            
                         </div>
