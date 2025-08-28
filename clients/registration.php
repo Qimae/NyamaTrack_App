@@ -62,10 +62,6 @@
                 <div
                     class="progress-step w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold bg-gray-700 text-gray-300">
                     2</div>
-                <div class="w-8 h-1 bg-gray-700 rounded"></div>
-                <div
-                    class="progress-step w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold bg-gray-700 text-gray-300">
-                    3</div>
             </div>
         </div>
 
@@ -140,7 +136,6 @@
                         <p class="text-xs text-gray-400 mt-1" id="passwordStrengthText">Password strength: Weak</p>
                     </div>
 
-
                     <!-- Confirm Password -->
                     <div class="relative">
                         <label class="block text-sm font-medium text-gray-300 mb-1">
@@ -154,46 +149,6 @@
                             <i class="fas fa-times text-red-500 hidden" id="passwordMismatch"></i>
                         </div>
                     </div>
-                </div>
-
-                <!-- Step 3: Business Information -->
-                <div id="step3" class="step-content hidden flex-1 overflow-y-auto pr-2 space-y-4">
-                    <!-- Business Name -->
-                    <div class="relative">
-                        <label class="block text-sm font-medium text-gray-300 mb-1">
-                            <i class="fas fa-store mr-2 text-gray-400"></i>Business Name:
-                        </label>
-                        <input type="text" id="business_name" name="business_name"
-                            class="input-glow w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all duration-300"
-                            placeholder="Your Butchery Name" required>
-                    </div>
-                    <div class="relative">
-                        <label class="block text-sm font-medium text-gray-300 mb-1">
-                            <i class="fas fa-store mr-2 text-gray-400"></i>Business Permit No.:
-                        </label>
-                        <input type="text" id="permit" name="permit"
-                            class="input-glow w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all duration-300"
-                            placeholder="Your Butchery Permit No." required>
-                    </div>
-
-                    <!-- County -->
-                    <div class="relative">
-                        <label class="block text-sm font-medium text-gray-300 mb-1">
-                            <i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>County:
-                        </label>
-                        <select id="location" name="location"
-                            class="input-glow w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all duration-300"
-                            required>
-                            <option value="">Select County</option>
-                            <option value="nairobi">Nairobi</option>
-                            <option value="mombasa">Mombasa</option>
-                            <option value="kisumu">Kisumu</option>
-                            <option value="kilifi">Kilifi</option>
-                            <option value="nakuru">Nakuru</option>
-                            <option value="eldoret">Eldoret</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div> <br />
 
                     <!-- Terms and Conditions -->
                     <div class="space-y-3">
@@ -225,17 +180,17 @@
                         onclick="changeStep(-1)">
                         <i class="fas fa-arrow-left mr-2"></i>Previous
                     </button>
-
-                    <button type="button" id="nextBtn"
-                        class="glow-button px-6 py-2 rounded-lg text-white font-semibold transition-all duration-300 hover:scale-105 ml-auto"
-                        onclick="changeStep(1)">
-                        Next<i class="fas fa-arrow-right ml-2"></i>
-                    </button>
-
-                    <button type="submit" id="submitBtn"
-                        class="glow-button px-6 py-2 rounded-lg text-white font-semibold transition-all duration-300 hover:scale-105 ml-auto hidden">
-                        <i class="fas fa-user-plus mr-2"></i>Create
-                    </button>
+                    <div class="ml-auto space-x-2">
+                        <button type="button" id="nextBtn"
+                            class="px-6 py-2 bg-gradient-to-r from-gray-600 to-gray-500 text-white rounded-lg hover:from-gray-500 hover:to-gray-400 transition-all duration-300"
+                            onclick="changeStep(1)">
+                            Next<i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                        <button type="submit" id="submitBtn"
+                            class="hidden px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg hover:from-blue-500 hover:to-blue-400 transition-all duration-300">
+                            <i class="fas fa-user-plus mr-2"></i>Create Account
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Login Link -->

@@ -70,19 +70,7 @@
                     <div class="absolute inset-y-0 right-0 flex items-center pr-3 pt-7">
                         <i class="fas fa-envelope text-white"></i>
                     </div>
-                </div>
-                <!-- Business Name Input -->
-                <div class="relative">
-                    <label class="block text-sm font-medium text-gray-300 mb-1">
-                        <i class="fas fa-briefcase mr-2 text-gray-400"></i>Business Name:
-                    </label>
-                    <input type="text" id="business_name" name="business_name"
-                        class="input-glow w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all duration-300"
-                        placeholder="Enter your business name" required>
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pt-7">
-                        <i class="fas fa-briefcase text-white"></i>
-                    </div>
-                </div>
+                </div>                
 
                 <!-- Password Input -->
                 <div class="relative">

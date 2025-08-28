@@ -1,5 +1,11 @@
 let currentStep = 1;
-const totalSteps = 3;
+const totalSteps = 2; // Reduced from 3 to 2 steps
+
+// Initialize form state when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    updateProgress(1);
+    updateButtons(1);
+});
 
 // Toggle Password Visibility
 function togglePassword(inputId) {
@@ -87,18 +93,16 @@ function updateButtons(step) {
     const nextBtn = document.getElementById('nextBtn');
     const submitBtn = document.getElementById('submitBtn');
 
+    // Always hide both buttons first
+    nextBtn.classList.add('hidden');
+    submitBtn.classList.add('hidden');
+    
     if (step === 1) {
         prevBtn.classList.add('hidden');
-    } else {
-        prevBtn.classList.remove('hidden');
-    }
-
-    if (step === totalSteps) {
-        nextBtn.classList.add('hidden');
-        submitBtn.classList.remove('hidden');
-    } else {
         nextBtn.classList.remove('hidden');
-        submitBtn.classList.add('hidden');
+    } else if (step === 2) {
+        prevBtn.classList.remove('hidden');
+        submitBtn.classList.remove('hidden');
     }
 }
 
@@ -146,9 +150,6 @@ document.getElementById("registerForm").addEventListener("submit", async functio
   try {
     const values = {
       fullname: document.getElementById("fullname").value.trim(),
-      business_name: document.getElementById("business_name").value.trim(),
-      permit: document.getElementById("permit").value.trim(),
-      location: document.getElementById("location").value.trim(),
       phone: document.getElementById("phone").value.trim(),
       email: document.getElementById("email").value.trim(),
       password: document.getElementById("password").value,

@@ -17,12 +17,11 @@ function togglePassword(inputId) {
 }
 document.getElementById("loginForm").addEventListener("submit", async function (e) {
   e.preventDefault();
-  const business_name = document.getElementById("business_name").value.trim();
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
   // Simple client-side validation
-  if (!business_name || !email || !password) {
+  if (!email || !password) {
     Swal.fire({
       title: 'Login Failed',
       text: 'Please fill in all fields',
@@ -66,7 +65,6 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({
-        business_name,
         email,
         password
       })
