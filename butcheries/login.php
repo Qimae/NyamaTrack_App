@@ -94,7 +94,7 @@
                         placeholder="Enter your password" autocomplete="off" required>
                     <div class="absolute inset-y-0 right-0 flex items-center pr-3 pt-7">
                         <button type="button" onclick="togglePassword('password')" class="text-gray-400 hover:text-white">
-                            <i class="fas fa-eye" id="passwordToggle"></i>
+                            <i class="fas fa-eye" id="toggleIcon"></i>
                         </button>
                     </div>
                 </div>

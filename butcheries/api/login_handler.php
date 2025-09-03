@@ -199,23 +199,16 @@ try {
                 // If this was the 3rd failed attempt, block the account
                 if ($new_attempts >= MAX_LOGIN_ATTEMPTS) {
                     try {
-                        // Check if business is already blocked
-                        $checkStmt = $pdo->prepare("SELECT id FROM blocked_butcheries WHERE business_name = ? LIMIT 1");
-                        $checkStmt->execute([$business_name]);
-                        $alreadyBlocked = $checkStmt->fetch();
-                        
-                        if (!$alreadyBlocked) {
-                            // Only insert if not already blocked
-                            $blockStmt = $pdo->prepare("INSERT INTO blocked_butcheries (email, business_name, reason) VALUES (?, ?, ?)");
-                            $blockStmt->execute([
-                                $email,
-                                $business_name,
-                                'Account locked due to ' . MAX_LOGIN_ATTEMPTS . ' failed login attempts. Contact support@nyamatrack.co.ke'
-                            ]);
-                        }
+                        // Add to blocked_butcheries table
+                        $blockStmt = $pdo->prepare("INSERT INTO blocked_butcheries (email, business_name, reason) VALUES (?, ?, ?)");
+                        $blockStmt->execute([
+                            $email,
+                            $business_name,
+                            'Account locked due to ' . MAX_LOGIN_ATTEMPTS . ' failed login attempts. Contact support@nyamatrack.co.ke'
+                        ]);
                     } catch (PDOException $e) {
                         // Log error but don't expose to user
-                        error_log("Error in blocked_butcheries operation: " . $e->getMessage());
+                        error_log("Error adding to blocked_butcheries: " . $e->getMessage());
                     }
                     
                     http_response_code(403);

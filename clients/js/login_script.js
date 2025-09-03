@@ -76,7 +76,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
       // Show success message
       Swal.fire({
         title: 'Login Successful!',
-        text: data.message || 'Redirecting to homepage...',
+        text: data.message || 'Redirecting to dashboard...',
         icon: 'success',
         showConfirmButton: false,
         timer: 1500,
@@ -87,8 +87,8 @@ document.getElementById("loginForm").addEventListener("submit", async function (
           Swal.showLoading();
         }
       });
-      // Redirect to index.php on success
-      window.location.href = 'index.php';
+      // Redirect to dashboard on success
+      window.location.href = 'dashboard.php';
     } else {
       // Show error message on the login form
       Swal.fire({
