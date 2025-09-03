@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beef Transactions - NyamaTrack</title>
-  <link rel="stylesheet" href="/NyamaTrack_App/utils/styles.css">
+  <title>Goat Transactions - NyamaTrack</title>
+  <link rel="stylesheet" href="utils/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
@@ -15,7 +15,6 @@
   <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="utils/becken.css">
-
 </head>
 
 <body>
@@ -28,18 +27,16 @@
   include 'includes/left-sidebar.php';
   include 'includes/bottom-sidebar.php';
   ?>
-
   <div class="bg" aria-hidden="true">
     <div class="orb red"></div>
     <div class="orb amber"></div>
     <div class="grid-overlay"></div>
   </div>
-
   <main class="py-4 transactions">
     <div class="container-fluid">
       <div class="row mb-4">
         <div class="col-12">
-          <h1 class="mb-4">Beef Transactions</h1>
+          <h1 class="mb-4">Goat Transactions</h1>
           <!-- Add/Edit Transaction Form -->
           <div class="card mb-4" style="background-color: var(--secondary-color); color: var(--text-color);">
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -102,7 +99,6 @@
                     <i class="fas fa-filter me-1"></i>Apply Filter
                   </button>
                 </div>
-
               </div>
             </div>
             <div class="card-body">
@@ -170,7 +166,7 @@
   <!-- JavaScript -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="js/beef_script.js"></script>
+  <script src="js/goat_script.js"></script>
 
 </body>
 

@@ -281,18 +281,49 @@ async function fetchDashboardData() {
   }
 }
 
+// Check trial status and handle redirection if needed
+function checkTrialStatus() {
+  const trialExpired = document.querySelector('.alert.alert-danger');
+  if (trialExpired) {
+    // Show a warning before redirecting
+    const countdownEl = document.createElement('div');
+    countdownEl.className = 'text-center mt-2';
+    trialExpired.parentNode.insertBefore(countdownEl, trialExpired.nextSibling);
+    
+    let countdown = 10;
+    countdownEl.textContent = `Redirecting to payment in ${countdown} seconds...`;
+    
+    const countdownInterval = setInterval(() => {
+      countdown--;
+      if (countdown > 0) {
+        countdownEl.textContent = `Redirecting to payment in ${countdown} seconds...`;
+      } else {
+        clearInterval(countdownInterval);
+        window.location.href = './mpesa/subscription.php';
+      }
+    }, 1000);
+  }
+}
+
 // Initialize the dashboard when the document is ready
 document.addEventListener('DOMContentLoaded', function () {
+  // Check trial status first
+  checkTrialStatus();
+  
   // Ensure error display is set up
   ensureErrorDisplay();
 
-  // Load dashboard data
+  // Initial data load
   fetchDashboardData();
 
   // Set up refresh button
-  const refreshBtn = document.getElementById('refresh-dashboard');
-  if (refreshBtn) {
-    refreshBtn.addEventListener('click', fetchDashboardData);
+  document.getElementById('refresh-dashboard').addEventListener('click', function() {
+    fetchDashboardData();
+  });
+
+  // Set up auto-refresh every 5 minutes (only if trial not expired)
+  if (!document.querySelector('.alert.alert-danger')) {
+    setInterval(fetchDashboardData, 5 * 60 * 1000);
   }
 });
 

@@ -1,0 +1,58 @@
+
+CREATE TABLE IF NOT EXISTS client_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fullname VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email_hash CHAR(64) NOT NULL,
+    failed_attempts INT DEFAULT 0,
+    last_failed_attempt TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_user (email_hash)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS carts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    status ENUM('active', 'completed', 'abandoned') DEFAULT 'active',
+    FOREIGN KEY (user_id) REFERENCES client_users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+CREATE TABLE IF NOT EXISTS cart_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cart_id INT NOT NULL,
+    product_id VARCHAR(20) NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    price DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (cart_id) REFERENCES carts(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    status ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES client_users(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id VARCHAR(20) NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
