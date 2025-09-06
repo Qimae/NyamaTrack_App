@@ -12,30 +12,40 @@ function formatCurrency(amount) {
   return 'Ksh ' + formatNumber(amount);
 }
 
-// Process transaction data for reports
-function processReportData(transactions) {
-  // Initialize data structures
-  const dailyTotals = {};
+// Process report data from API
+function processReportData(apiResponse) {
+  const { beef, goat, summary } = apiResponse.data;
+  
+  // Prepare result object
   const result = {
-    totalSales: 0,
-    totalExpenses: 0,
-    totalProfit: 0,
-    totalKilos: 0,
+    totalSales: parseFloat(summary.total_sales) || 0,
+    totalExpenses: parseFloat(summary.total_expenses) || 0,
+    totalProfit: parseFloat(summary.total_profit) || 0,
+    totalKilos: parseFloat(summary.total_kilos) || 0,
     chartData: {
       labels: [],
       sales: []
     },
     tableData: {}
   };
-
+  
+  // Combine and group transactions by date
+  const allTransactions = [
+    ...(beef || []).map(tx => ({ ...tx, type: 'beef' })),
+    ...(goat || []).map(tx => ({ ...tx, type: 'goat' }))
+  ];
+  
+  const dailyTotals = {};
+  
   // Process each transaction
-  transactions.forEach(tx => {
+  allTransactions.forEach(tx => {
     const date = new Date(tx.transaction_date);
     const dateKey = date.toISOString().split('T')[0];
     
     // Initialize day if not exists
     if (!dailyTotals[dateKey]) {
       dailyTotals[dateKey] = {
+        date: date,
         sales: 0,
         expenses: 0,
         profit: 0,
@@ -45,22 +55,17 @@ function processReportData(transactions) {
     
     // Add transaction to daily totals
     const day = dailyTotals[dateKey];
-    day.sales += parseFloat(tx.total_cash_sales || 0);
-    day.expenses += parseFloat(tx.daily_expense || 0);
-    day.profit += (parseFloat(tx.total_cash_sales || 0) - parseFloat(tx.daily_expense || 0));
-    day.kilos += parseFloat(tx.total_kilos || 0);
-  });
-  
-  // Calculate totals
-  Object.values(dailyTotals).forEach(day => {
-    result.totalSales += day.sales;
-    result.totalExpenses += day.expenses;
-    result.totalProfit += day.profit;
-    result.totalKilos += day.kilos;
+    const sales = parseFloat(tx.total_cash_sales || 0);
+    const expense = parseFloat(tx.daily_expense || 0);
+    
+    day.sales += sales;
+    day.expenses += expense;
   });
   
   // Prepare chart data (last 30 days)
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
   for (let i = 29; i >= 0; i--) {
     const date = new Date(today);
     date.setDate(today.getDate() - i);
@@ -324,7 +329,7 @@ async function fetchReportsData(startDate, endDate) {
     const startDateStr = formatDate(dates.startDate);
     const endDateStr = formatDate(dates.endDate);
     
-    const apiUrl = `/NyamaTrack_App/api/beef_transactions_handler.php?start_date=${startDateStr}&end_date=${endDateStr}`;
+    const apiUrl = `/NyamaTrack_App/butcheries/api/reports_handler.php?start_date=${startDateStr}&end_date=${endDateStr}`;
     console.log('Making request to:', apiUrl);
     
     // Fetch transactions data
@@ -342,106 +347,61 @@ async function fetchReportsData(startDate, endDate) {
     
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Error response:', errorText);
+      console.error('API Error:', errorText);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const result = await response.json();
+    console.log('API Response:', result);
     
-    let result;
-    try {
-      result = await response.json();
-      console.log('API Response:', result);
-    } catch (e) {
-      const errorText = await response.text();
-      console.error('Failed to parse JSON:', errorText);
-      throw new Error('Invalid JSON response from server');
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to fetch report data');
     }
     
-    if (result.error) {
-      throw new Error(result.error);
-    }
+    // Process the response data
+    const reportData = processReportData(result);
     
-    // Get transactions and summary from API response
-    const transactions = Array.isArray(result) ? result : (Array.isArray(result.data) ? result.data : []);
-    const summary = result.summary || {};
+    // Log the data being passed to the table
+    console.log('Table data to be rendered:', {
+      total_sales: reportData.totalSales,
+      total_expenses: reportData.totalExpenses,
+      total_profit: reportData.totalProfit,
+      total_kilos: reportData.totalKilos
+    });
     
-    // Debug: Log the structure of the response
-    console.log('Full API Response:', result);
-    console.log('Transactions array length:', transactions.length);
-    console.log('Available summary fields:', Object.keys(summary));
-    
-    // Debug: Log the first transaction to see its structure
-    if (transactions.length > 0) {
-      console.log('First transaction:', transactions[0]);
-      console.log('Transaction keys:', Object.keys(transactions[0]));
-    }
-    
-    // Check if we have any transaction data
-    if (transactions.length === 0) {
+    // Check if we have any data
+    if (reportData.totalSales === 0 && reportData.totalExpenses === 0) {
       console.warn('No transaction data found');
       showError('No transaction data found for the selected period');
       return;
     }
     
-    // Process the transactions data for the chart
-    const reportData = processReportData(transactions);
-    
     // Prepare table data using the API summary
-    // Note: The API returns these fields in the summary:
-    // - total_profit
-    // - total_kilos
-    // - total_transactions
-    // - avg_profit_per_kg
-    
-    // Since we don't have total_sales and total_expenses in the summary,
-    // we'll calculate them from the transactions
-    let total_sales = 0;
-    let total_expenses = 0;
-    
-    transactions.forEach(tx => {
-      // Ensure we're working with numbers by removing any non-numeric characters except decimal point
-      const sales = parseFloat(String(tx.total_cash_sales || 0).replace(/[^0-9.]/g, '')) || 0;
-      const expenses = parseFloat(String(tx.daily_expense || 0).replace(/[^0-9.]/g, '')) || 0;
-      
-      total_sales += sales;
-      total_expenses += expenses;
-      
-      // Debug log for each transaction
-      console.log('Processing transaction:', {
-        date: tx.transaction_date,
-        sales: tx.total_cash_sales,
-        parsedSales: sales,
-        expenses: tx.daily_expense,
-        parsedExpenses: expenses
-      });
-    });
-    
-    console.log('Calculated totals:', { total_sales, total_expenses });
-    
     const tableData = {
       total_sales: {
-        value: total_sales,  // Store raw number
-        formattedValue: formatCurrency(total_sales),
+        value: reportData.totalSales,
+        formattedValue: formatCurrency(reportData.totalSales),
         change: '0.0%',
         trend: 'up',
         isCurrency: true
       },
       total_expenses: {
-        value: total_expenses,  // Store raw number
-        formattedValue: formatCurrency(total_expenses),
+        value: reportData.totalExpenses,
+        formattedValue: formatCurrency(reportData.totalExpenses),
         change: '0.0%',
         trend: 'up',
         isCurrency: true
       },
       total_profit: {
-        value: summary.total_profit || 0,  // Store raw number
-        formattedValue: formatCurrency(summary.total_profit || 0),
+        value: reportData.totalProfit,
+        formattedValue: formatCurrency(reportData.totalProfit),
         change: '0.0%',
-        trend: (summary.total_profit || 0) >= 0 ? 'up' : 'down',
+        trend: reportData.totalProfit >= 0 ? 'up' : 'down',
         isCurrency: true
       },
       total_kilos: {
-        value: summary.total_kilos || 0,  // Store raw number
-        formattedValue: (summary.total_kilos || 0).toFixed(2) + ' kg',
+        value: reportData.totalKilos,
+        formattedValue: formatNumber(reportData.totalKilos) + ' kg',
         change: '0.0%',
         trend: 'up',
         isCurrency: false
