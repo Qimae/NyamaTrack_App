@@ -1,6 +1,6 @@
 <?php
 // Include configuration
-require_once 'config.php';
+require_once '../config.php';
 
 // Initialize variables
 $message = '';

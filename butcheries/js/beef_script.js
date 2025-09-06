@@ -90,10 +90,10 @@ $(document).ready(function() {
             ${formatNumber(transaction.profit)}
           </td>
           <td class="text-center">
-            <span class="text-primary me-1 edit-btn" data-id="${transaction.id}" title="Edit" style="cursor: pointer; font-size: 1.1em; ">
+            <span class="text-primary me-1 edit-btn" data-id="${transaction.id}" title="Edit" style="cursor: pointer; font-size: 1.1em;">
               <i class="fas fa-edit"></i>
             </span>
-            <span class="text-danger delete-btn" data-id="${transaction.id}" title="Delete" style="cursor: pointer; font-size: 1.1em; ">
+            <span class="text-danger delete-btn" data-id="${transaction.id}" title="Delete" style="cursor: pointer; font-size: 1.1em;">
               <i class="fas fa-trash"></i>
             </span>
           </td>

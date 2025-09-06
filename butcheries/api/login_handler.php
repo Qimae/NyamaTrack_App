@@ -73,11 +73,21 @@ try {
         exit;
     }
 
-    // Hash business_name and email for lookup
-    $hash_business_name = hash('sha256', strtolower($business_name));
-    $hash_email = hash('sha256', strtolower($email));
-
+    // First check if business is blocked before any database operations
     try {
+        $checkBlocked = $pdo->prepare("SELECT id FROM blocked_butcheries WHERE business_name = ? LIMIT 1");
+        $checkBlocked->execute([$business_name]);
+        
+        if ($checkBlocked->fetch()) {
+            http_response_code(403);
+            echo json_encode(['error' => 'This business has been blocked. Please contact support for assistance.']);
+            exit;
+        }
+
+        // Hash business_name and email for lookup
+        $hash_business_name = hash('sha256', strtolower($business_name));
+        $hash_email = hash('sha256', strtolower($email));
+
         // Get user with all necessary fields including created_at
         $stmt = $pdo->prepare("SELECT id, fullname, business_name, password, failed_attempts, last_failed_attempt, created_at FROM users WHERE email_hash = ? AND business_name_hash = ? LIMIT 1");
         $stmt->execute([$hash_email, $hash_business_name]);
@@ -137,14 +147,6 @@ try {
                 $trialEndDate = new DateTime();
                 $trialEndDate->modify('+7 days');
                 
-                // First check if business is blocked
-                $checkBlocked = $pdo->prepare("SELECT * FROM blocked_butcheries WHERE business_name = ?");
-                $checkBlocked->execute([$dec_business_name]);
-                
-                if ($checkBlocked->rowCount() > 0) {
-                    throw new Exception('This business has been blocked. Please contact support for assistance.');
-                }
-                
                 $insertStmt = $pdo->prepare("
                     INSERT INTO subscribers (user_id, business_name, subscription_type, status, end_date)
                     VALUES (?, ?, 'trial', 'active', ?)
@@ -199,16 +201,18 @@ try {
                 // If this was the 3rd failed attempt, block the account
                 if ($new_attempts >= MAX_LOGIN_ATTEMPTS) {
                     try {
-                        // Add to blocked_butcheries table
-                        $blockStmt = $pdo->prepare("INSERT INTO blocked_butcheries (email, business_name, reason) VALUES (?, ?, ?)");
-                        $blockStmt->execute([
-                            $email,
-                            $business_name,
-                            'Account locked due to ' . MAX_LOGIN_ATTEMPTS . ' failed login attempts. Contact support@nyamatrack.co.ke'
-                        ]);
+                        // First check if business is already blocked
+                        $checkBlocked = $pdo->prepare("SELECT id FROM blocked_butcheries WHERE business_name = ? LIMIT 1");
+                        $checkBlocked->execute([$business_name]);
+                        
+                        if (!$checkBlocked->fetch()) {
+                            // Only insert if not already blocked
+                            $blockStmt = $pdo->prepare("INSERT INTO blocked_butcheries (email, business_name, reason) VALUES (?, ?, 'Too many failed login attempts')");
+                            $blockStmt->execute([$email, $business_name]);
+                        }
                     } catch (PDOException $e) {
-                        // Log error but don't expose to user
-                        error_log("Error adding to blocked_butcheries: " . $e->getMessage());
+                        // Log the error but don't show to user
+                        error_log('Failed to block business: ' . $e->getMessage());
                     }
                     
                     http_response_code(403);

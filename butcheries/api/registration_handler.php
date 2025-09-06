@@ -72,11 +72,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hash_business_name = hash('sha256', strtolower($business_name));
 
     // Check if user already exists (by email and business_name)
-    $checkStmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND business_name = ? LIMIT 1");
-    $checkStmt->execute([$enc_email, $enc_business_name]);
-    if ($checkStmt->fetch()) {
+    $checkUserStmt = $pdo->prepare("SELECT id FROM users WHERE email_hash = ? AND business_name_hash = ? LIMIT 1");
+    $checkUserStmt->execute([$hash_email, $hash_business_name]);
+    if ($checkUserStmt->fetch()) {
         http_response_code(409);
         echo json_encode(['error' => 'User with this email and business name already exists.']);
+        exit;
+    }
+    
+    // Check if business name is already registered or blocked
+    $checkBusinessStmt = $pdo->prepare("SELECT id FROM users WHERE business_name_hash = ? UNION SELECT id FROM blocked_butcheries WHERE business_name = ? LIMIT 1");
+    $checkBusinessStmt->execute([$hash_business_name, $business_name]);
+    if ($checkBusinessStmt->fetch()) {
+        http_response_code(409);
+        echo json_encode(['error' => 'This business name is already registered or blocked. Please choose a different name.']);
         exit;
     }
 

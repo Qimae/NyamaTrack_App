@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE KEY unique_user (email_hash, business_name_hash)
 );
+
 -- Table for blocked_butcheries
 CREATE TABLE IF NOT EXISTS blocked_butcheries (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -26,6 +27,8 @@ CREATE TABLE IF NOT EXISTS blocked_butcheries (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     UNIQUE KEY unique_business (business_name)
 );
+ALTER TABLE blocked_butcheries DROP INDEX unique_business;
+
 -- Table for beef transactions (daily summary)
 CREATE TABLE IF NOT EXISTS beef_transactions (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -132,4 +135,5 @@ CREATE TABLE IF NOT EXISTS subscribers (
     KEY idx_user_id (user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+ALTER TABLE subscribers DROP INDEX unique_business;
 

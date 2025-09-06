@@ -1,3 +1,9 @@
 [27-Aug-2025 10:22:19 Europe/Berlin] PHP Warning:  Undefined array key "created_at" in C:\xampp\htdocs\NyamaTrack_App\api\login_handler.php on line 129
 [27-Aug-2025 10:22:19 Europe/Berlin] Database Error: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'Winnie Butchery' for key 'unique_business'
 [28-Aug-2025 07:42:18 Europe/Berlin] Login Error: This business has been blocked. Please contact support for assistance.
+[06-Sep-2025 13:51:57 Europe/Berlin] Database Error: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'Kimae Butchery' for key 'unique_business'
+[06-Sep-2025 14:04:17 Europe/Berlin] Database Error: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'Kimae Butchery' for key 'unique_business'
+[06-Sep-2025 14:08:22 Europe/Berlin] Database Error: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'Kimae Butchery' for key 'unique_business'
+[06-Sep-2025 14:13:20 Europe/Berlin] Database Error: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'Kimae Butchery' for key 'unique_business'
+[06-Sep-2025 14:13:38 Europe/Berlin] Database Error: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'Kimae Butchery' for key 'unique_business'
+[06-Sep-2025 14:15:22 Europe/Berlin] Database Error: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry 'Kimae Butchery' for key 'unique_business'
